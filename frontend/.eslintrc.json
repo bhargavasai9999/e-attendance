@@ -1,0 +1,17 @@
+{
+    "extends": ["eslint:recommended"],
+    "parser": "babel-eslint",
+        "parserOptions": {
+          "sourceType": "module",
+          "allowImportExportEverywhere": true,
+          "ecmaVersion": 2023,
+          "ecmaFeatures": {
+            "jsx":true,
+            "js":true
+          }
+        },
+    "rules": {
+    // Your custom rules here
+
+    }
+   }
