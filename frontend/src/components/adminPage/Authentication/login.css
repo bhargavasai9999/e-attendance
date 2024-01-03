@@ -1,0 +1,25 @@
+.login-main-card{
+    background:#fff;
+    height: 100vh;
+    width: 100vw;
+margin:0;    
+}
+.login-card{
+    height:350px;
+    width:300px;
+    padding: 20px;
+    background:orange;
+    text-align: center;
+    border: 2px;
+    border-color: black;
+}
+.login-button{
+    background-color: white;
+    color:linear-gradient( rgb(86, 86, 206), rgb(209, 51, 51));
+    text-align: center;
+}
+.login-button:hover{
+    transform: scale(0.9);
+    transition: all 0.2s ease-in-out;
+    color: black;
+}

@@ -13,19 +13,20 @@ export const transporter=createTransport({
           pass: process.env.nodemailer_passkey
         },
       })
-export const sendEmail= async (email)=>{
-    try {
+export const sendEmail= async (email,token)=>{
+  const resetURL=`http://localhost:3000/resetpassword/${token}`
+    try { 
         const response = await transporter.sendMail({
             from: `"E-Attendance "<${process.env.nodemailer_email}>"`, // sender address
             to: email, //reciever address
             subject: "Password Change Request link from E-attendance", // Subject 
             text: "Password reset link", // text body
             html: `<h3>Reset Your Password </h3>
-            <p>Here is Your password reset link </p>
-            <strong>Expires In : 30 Minutes</strong>
-            <a href="http:localhost:5000/",target="_blank">click here</a>
+            <h4>Here is Your password reset link </h4>
+            <strong>Expires In : </strong>30 Minutes
+            <a  rel="noreferrer noopener" href="${resetURL}"target="_blank">click Here</a>
             <h4>Thank you...</h4>
-            <p>E-attendance team</p>`, // html body
+            <strong>E-attendance Team</strong>`, 
           });
           console.log(response)
           return response;
