@@ -1,18 +1,21 @@
 const dotenv=require('dotenv')
 dotenv.config()
 const pg=require('pg')
-const database = new pg.Pool({
-  user: 'sai9999',
-  host: 'flipr-task-db.c2beljlrxbik.ap-south-1.rds.amazonaws.com',
-  password: 'sting9999',
-  port: 5432,
-  database: 'attendance',
+// database connection setup 
+const DB_config={
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  password:process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
+  database:process.env.DB_NAME,
   ssl: {
-    ssl:false,
-    rejectUnauthorized: false,
+    ssl:false,               // for production it should be "true"
+    rejectUnauthorized: false, // for production it should be "true"
   }
-});
+}
+const database = new pg.Pool(DB_config);
 
+// check Database connection
 const checkdbConnection=async ()=>{
     try {
       if(!database._connected){

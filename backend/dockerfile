@@ -2,14 +2,13 @@
 FROM node:21.5.0-alpine
 
 #Working Directory
-WORKDIR /e-attendance
+WORKDIR /e-attendance/backend
 
 #Copy Package.json File 
 
-COPY Package*.json ./
-
+COPY package.json /e-attendance/backend/
 # install node packages
-RUN npm install
+RUN npm install --verbose
 
 #Copy all Bundle files into image
 COPY . .

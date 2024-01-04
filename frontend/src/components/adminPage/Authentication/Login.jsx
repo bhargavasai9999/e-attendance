@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import "./login.css";
-import { Form, FormControl, InputGroup} from 'react-bootstrap'
+import { Form, FormControl, FormLabel, InputGroup} from 'react-bootstrap'
 import InputGroupText from 'react-bootstrap/esm/InputGroupText'
 import {api} from '../../../apis/axiosConfig.js';
 import toast, { Toaster } from 'react-hot-toast';
@@ -80,7 +80,7 @@ const handleshowpassword = () => {
            <br/>
            <button type="submit" title='login' className=' login-button d-flex rounded-5 px-4 fw-bold shadow-sm py-2 mx-auto ' style={{width:"100px",textAlign:"center"}}>Login</button>
         </Form>
-        <a className='text-white fw-bold' onClick={()=>setForgotPassword(true)}>Forgot Password ?</a>
+        <a className='fw-bold' onClick={()=>setForgotPassword(true)}>Forgot Password ?</a>
       </div>
       
     </div>) 
@@ -89,6 +89,8 @@ const handleshowpassword = () => {
     <div className="login-card shadow rounded-4 d-flex justify-content-evenly mx-auto flex-column">
       <h3 className='m-0 mb-4'>Forgot Password..!</h3>
       <Form onSubmit={onForgotPassword} className='w-100 d-flex flex-column justify-content-between' autoComplete='off'>
+        
+        <FormLabel className='h5 lex'>Enter Email: </FormLabel>
         <InputGroup className="">
         <InputGroupText>📧</InputGroupText>
         <FormControl type="email" name="email" onChange={onChange} value={loginDetails.email}
@@ -97,7 +99,7 @@ const handleshowpassword = () => {
          <br/>
          <button type="submit" title='Reset password' className=' login-button d-flex rounded-5 px-4 fw-bold shadow-sm py-2 mx-auto ' style={{width:"auto",textAlign:"center"}}>Reset Password</button>
       </Form>
-      <a className='text-white fw-bold' onClick={()=>setForgotPassword(false)}>Login here..!</a>
+      <a className='fw-bold' onClick={()=>setForgotPassword(false)}>Login here..!</a>
     </div>
   </div>
       }
