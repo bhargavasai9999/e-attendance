@@ -56,14 +56,14 @@ const handleshowpassword = () => {
     <div>
       {!isForgotPassword ?
       (<div className='login-main-card d-flex flex-column justify-content-center'>
-      <div className="login-card shadow rounded-4 d-flex justify-content-evenly mx-auto flex-column">
-        <h3 className='m-0 mb-4 text-white'>Admin login</h3>
-        <Form onSubmit={onSubmit} className='w-100 d-flex flex-column justify-content-between' autoComplete='off'>
+      <div className="login-card shadow-lg rounded-4 d-flex justify-content-evenly  mx-auto flex-column">
+        <h3 className='m-0 mb-4 fw-bold'>Admin login</h3>
+        <Form onSubmit={onSubmit} className='w-100 d-flex flex-column' autoComplete='on'>
           <InputGroup className="">
           
           <InputGroupText>📧 </InputGroupText>
           <FormControl type="email" name="email" onChange={onChange} value={loginDetails.email}
-           className='shadow-sm rounded-end ' placeholder='Enter your Email'  />
+           className='shadow-sm rounded-end ' placeholder='Enter your Email' required />
            
            </InputGroup>
            <br/>
@@ -71,11 +71,12 @@ const handleshowpassword = () => {
            <InputGroup >
           <InputGroupText>🔐 </InputGroupText>
           <FormControl type="password" name="password" id="password" onChange={onChange} value={loginDetails.password}
-           className='shadow-sm rounded-end ' placeholder='Enter your password'/> <br/>
-           
+           className='shadow-sm  ' placeholder='Enter your password' style={{borderRight:"none"}} required/> <br/>
+                     <InputGroupText style={{background:"inherit",borderLeft:"none",cursor:"pointer"}} onClick={handleshowpassword} >👁️ </InputGroupText>
+
            </InputGroup>
            
-           <h6 className='mt-3 text-white'> <input type='checkbox' onClick={handleshowpassword}  /> &nbsp; Show password</h6>
+           {/* <h6 className='mt-3 fw-bold d-flex mx-1'> <input type='checkbox'  /> &nbsp; Show password</h6> */}
            <br/>
            <button type="submit" title='login' className=' login-button d-flex rounded-5 px-4 fw-bold shadow-sm py-2 mx-auto ' style={{width:"100px",textAlign:"center"}}>Login</button>
         </Form>
@@ -86,7 +87,7 @@ const handleshowpassword = () => {
     :
    <div className='login-main-card d-flex flex-column justify-content-center'>
     <div className="login-card shadow rounded-4 d-flex justify-content-evenly mx-auto flex-column">
-      <h3 className='m-0 mb-4 text-white'>Forgot Password..!</h3>
+      <h3 className='m-0 mb-4'>Forgot Password..!</h3>
       <Form onSubmit={onForgotPassword} className='w-100 d-flex flex-column justify-content-between' autoComplete='off'>
         <InputGroup className="">
         <InputGroupText>📧</InputGroupText>

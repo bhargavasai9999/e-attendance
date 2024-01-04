@@ -7,6 +7,7 @@ import { CreateUserTable } from './models/User.js';
 import { AuthRouters } from './routes/authentication.router.js';
 
 const app = express();
+dotenv.config()
 //Checking Database connection
 await checkdbConnection()
 // Create Schemas and tables in PostgreSQL Database
@@ -27,8 +28,7 @@ app.get('/', (req, res) => {
     }
 });
 
-
-const PORT=5000
+const PORT= process.env.EXPRESS_PORT || 5000
 app.listen(PORT, () => {
     console.log(`Server Running on port ${PORT}`);
 });

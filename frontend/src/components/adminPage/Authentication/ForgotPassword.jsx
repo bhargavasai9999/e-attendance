@@ -1,4 +1,6 @@
 import React from 'react'
+import "./login.css";
+
 import { useState } from 'react'
 import {Form,FormControl,InputGroup} from 'react-bootstrap'
 import InputGroupText from 'react-bootstrap/esm/InputGroupText'
@@ -36,13 +38,13 @@ import toast from 'react-hot-toast'
   return (
     <div className='login-main-card d-flex flex-column justify-content-center'>
       <div className="login-card shadow rounded-4 d-flex justify-content-evenly mx-auto flex-column">
-        <h3 className='m-0 mb-4 text-white text-text-decoration-underline'>Reset Password</h3>
+        <h3 className='m-0 mb-4'>Reset Password</h3>
         <Form onSubmit={onSubmit} className='w-100 d-flex flex-column justify-content-between' autoComplete='off'>
           <InputGroup className="">
           
           <InputGroupText>🔐 </InputGroupText>
           <FormControl type="password" name="password" onChange={onChange} value={newPassword.password}
-           className='shadow-sm rounded-end ' placeholder='New Password'  />
+           className='shadow-sm rounded-end ' placeholder='New Password' required />
            
            </InputGroup>
            <br/>
@@ -50,7 +52,7 @@ import toast from 'react-hot-toast'
            <InputGroup >
           <InputGroupText>🔐 </InputGroupText>
           <FormControl type="text" name="confirmPassword"  onChange={onChange} value={newPassword.confirmPassword}
-           className='shadow-sm rounded-end ' placeholder='Confirm new password'/> <br/>
+           className='shadow-sm rounded-end ' placeholder='Confirm new password' required/> <br/>
            
            </InputGroup>
            <br/>

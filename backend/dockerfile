@@ -1,0 +1,25 @@
+#setup node Environment
+FROM node:21.5.0-alpine
+
+#Working Directory
+WORKDIR /e-attendance
+
+#Copy Package.json File 
+
+COPY Package*.json ./
+
+# install node packages
+RUN npm install
+
+#Copy all Bundle files into image
+COPY . .
+
+#Run container on Port 8080
+EXPOSE 8080
+
+#Run Your node application
+
+CMD [ "npm","run","dev" ]
+
+
+
