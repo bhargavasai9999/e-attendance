@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { hostname } from "../constant/constant"; 
 export const  api=axios.create({
-    baseURL:"http://localhost:5000",
+    baseURL:`http://${hostname}:5000`,
 })

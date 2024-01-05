@@ -2,7 +2,6 @@ import { createTransport } from "nodemailer";
 import dotenv from 'dotenv'
 
 dotenv.config()
-
 export const transporter=createTransport({
         service:"gmail",
         host: "smtp.gmail.com",
@@ -13,8 +12,8 @@ export const transporter=createTransport({
           pass: process.env.nodemailer_passkey
         },
       })
-export const sendEmail= async (email,token)=>{
-  const resetURL=`http://localhost:3000/resetpassword/${token}`
+export const sendEmail= async (email,token,hostName)=>{
+  const resetURL=`http://${hostName}/resetpassword/${token}`
     try { 
         const response = await transporter.sendMail({
             from: `"E-Attendance "<${process.env.nodemailer_email}>"`, // sender address
@@ -28,7 +27,6 @@ export const sendEmail= async (email,token)=>{
             <h4>Thank you...</h4>
             <strong>E-attendance Team</strong>`, 
           });
-          console.log(response)
           return response;
     } catch (error) {
         console.log(error)

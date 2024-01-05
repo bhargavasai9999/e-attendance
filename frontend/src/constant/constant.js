@@ -1,0 +1,1 @@
+export let hostname=window.location.hostname || "localhost"

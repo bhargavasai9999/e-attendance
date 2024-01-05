@@ -3,9 +3,10 @@ import "./login.css";
 import { Form, FormControl, FormLabel, InputGroup} from 'react-bootstrap'
 import InputGroupText from 'react-bootstrap/esm/InputGroupText'
 import {api} from '../../../apis/axiosConfig.js';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 export const Login = () => {
-const [loginDetails,setloginDetails]=useState({
+  const host=window.location.host
+  const [loginDetails,setloginDetails]=useState({
   email:"",
   password:""
 })
@@ -31,7 +32,7 @@ const onSubmit=(e)=>{
 
 const onForgotPassword=(e)=>{
   e.preventDefault();
-  api.post("/resetpassword",{email:loginDetails.email}).then((response)=>{
+  api.post("/resetpassword",{email:loginDetails.email,hostName:host}).then((response)=>{
     setloginDetails({
       email:"",
       password:""
