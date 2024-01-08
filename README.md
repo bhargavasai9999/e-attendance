@@ -23,7 +23,7 @@ docker run -p 5000:5000 bhargavasai9999/e-attendance-backend
 
 ## Environment Variables
 
-To run this project, you will need to add the environment variables to your .env file
+To run this project, you will need to add the environment variables to your .env file in backend folder
 
 ` Check .example.env file to configure the environment variables as needed`
 
