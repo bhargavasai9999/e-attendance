@@ -1,6 +1,6 @@
 import { database } from "../../config/dbconnection.cjs";
 import * as crypto from "crypto"
-import {sendEmail} from '../../config/nodemailer_config.js';
+import {sendResetEmail} from '../../config/nodemailer_config.js';
 // Reset Password Controller
 const generateToken=()=>{
     return crypto.randomBytes(32).toString('hex')
@@ -8,8 +8,6 @@ const generateToken=()=>{
 
 export const generateResetURL= async (req,res)=>{
     const {email,hostName}=req.body
-    console.log("hiii")
-    console.log(req.get('host'))
     try {
         const verifyResult =await database.query(`SELECT email from e_attendance.User WHERE email=$1`,[email])
         
@@ -17,7 +15,7 @@ export const generateResetURL= async (req,res)=>{
         const resetToken=generateToken()
         const query=`UPDATE e_attendance.User SET reset_token=$1,expiry_time=CURRENT_TIMESTAMP+'1800 Seconds' WHERE email=$2`
         await database.query(query,[resetToken,email])
-        sendEmail(email,resetToken,hostName)
+        sendResetEmail(email,resetToken,hostName)
         return res.status(200).json({message:"reset link is sent to mail"})
         }
         else{
@@ -25,6 +23,7 @@ export const generateResetURL= async (req,res)=>{
         }
     } catch (error) {
         console.log(error);
+        return res.status(500).json({message:"Unable to connect server"})
     }
 
 }

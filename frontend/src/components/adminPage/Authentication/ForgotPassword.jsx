@@ -20,7 +20,7 @@ import toast from 'react-hot-toast'
     const onSubmit=(e)=>{
         e.preventDefault();
         if(newPassword.password===newPassword.confirmPassword){
-          api.put("/resetpassword",{token:token,new_Password:newPassword.password}).then((response)=>{
+          api.put("/updatepassword",{token:token,new_Password:newPassword.password}).then((response)=>{
             console.log(response.data.message);
             toast.success(response.data.message)
           }).catch((error)=>{

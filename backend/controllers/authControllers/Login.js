@@ -9,7 +9,7 @@ export const Login=async (req,res)=>{
         const Result =await database.query(query,[email])
         if(Result.rows.length>0){
             if(Result.rows[0].password===password){
-                const userIdToken=jwtToken(Result.rows[0].id)
+                const userIdToken=jwtToken(Result.rows[0].adminid)
                 return res.status(200).json({
                     token:userIdToken,
                     message:"Login Successful"
@@ -23,8 +23,9 @@ export const Login=async (req,res)=>{
             return res.status(404).json({message:"User not Found"})
         }
     } catch (error) {
-        console.log("Internel Server error:",error)
-        return res.status(400).json({message:"Internal server error"})
+        console.log("Authentication Internel Server error:",error)
+        return res.status(400).json({message:"Unable to connect server"})
     }
 }
+
 

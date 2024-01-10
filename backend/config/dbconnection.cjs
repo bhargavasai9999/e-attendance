@@ -22,9 +22,6 @@ const checkdbConnection=async ()=>{
         await database.connect()
         console.log("DB Connection Established **Successfully");
       }
-      else{
-        console.log("DB Connection already **Established");
-      }
       }
      catch (error) {
         console.error("Unable to connect : ",error)

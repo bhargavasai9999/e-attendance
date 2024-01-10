@@ -12,7 +12,7 @@ export const transporter=createTransport({
           pass: process.env.nodemailer_passkey
         },
       })
-export const sendEmail= async (email,token,hostName)=>{
+export const sendResetEmail= async (email,token,hostName)=>{
   const resetURL=`http://${hostName}/resetpassword/${token}`
     try { 
         const response = await transporter.sendMail({

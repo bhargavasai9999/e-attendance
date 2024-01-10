@@ -1,11 +1,12 @@
 import jwt from 'jsonwebtoken';
-
-
+import dotenv from 'dotenv'
+dotenv.config()
 export const jwtToken=(userId)=>{
-    return jwt.sign({
-        userId,
-    },process.env.jwt_key,{
-        expiresIn:'1 day'
+    const payload={
+        userId:userId
+    }
+    return jwt.sign(payload,process.env.jwt_key,{
+        expiresIn:'1h'
     })
 }
 

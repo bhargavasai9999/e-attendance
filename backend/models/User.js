@@ -4,18 +4,18 @@ export const CreateUserTable = async () => {
         await database.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"');
         const query = `CREATE TABLE IF NOT EXISTS e_attendance.User
         (
-            id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-            name TEXT NOT NULL,
-            email TEXT UNIQUE NOT NULL,
-            mobile_number NUMERIC NOT NULL,
-            password TEXT NOT NULL,
+            ADMINID uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+            NAME VARCHAR(200) NOT NULL,
+            EMAIL VARCHAR(200) UNIQUE NOT NULL,
+            MOBILE_NUMBER NUMERIC(10,0) NOT NULL,
+            PASSWORD VARCHAR(200) NOT NULL,
             reset_token TEXT,
             expiry_time TIMESTAMPTZ
         )`;
         await database.query(query);
         console.log("User table created");
     } catch (error) {
-        console.log(error);
+        console.log("attendance table: ",error);
     }
 };
 
