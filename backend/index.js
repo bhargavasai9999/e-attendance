@@ -8,6 +8,10 @@ import { AuthRouters } from './routes/Admin/authentication.router.js';
 import { CreateStudentTable } from './models/Student.js';
 import { CreateAttendanceTable } from './models/Attendance.js';
 import { StudentRouters } from './routes/Admin/student.router.js';
+import { AdminRouters } from './routes/Admin/admin.router.js';
+import { AttendanceRouters } from './routes/Admin/attendance.router.js';
+import { StudentAuthRouters } from './routes/StudentApp/studentAuth.router.js';
+
 const app = express();
 dotenv.config()
 //Checking Database connection
@@ -22,9 +26,12 @@ await CreateAttendanceTable();
 
 app.use(express.json());
 app.use(cors());
-app.use(AuthRouters)
-app.use(StudentRouters)
 
+app.use('/admin',AdminRouters)
+app.use('/admin',AuthRouters)
+app.use('/admin',StudentRouters)
+app.use('/admin',AttendanceRouters)
+app.use('/student',StudentAuthRouters)
 
 app.get('/', (req, res) => {
     try {

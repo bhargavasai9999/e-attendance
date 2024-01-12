@@ -10,6 +10,8 @@ export const CreateUserTable = async () => {
             MOBILE_NUMBER NUMERIC(10,0) NOT NULL,
             PASSWORD VARCHAR(200) NOT NULL,
             reset_token TEXT,
+            attendance_token TEXT,
+            attendancetoken_expirytime TIMESTAMPTZ,
             expiry_time TIMESTAMPTZ
         )`;
         await database.query(query);

@@ -1,10 +1,9 @@
 import { database } from "../../config/dbconnection.cjs";
 import * as crypto from "crypto"
 import {sendResetEmail} from '../../config/nodemailer_config.js';
+import {generateRandomToken} from '../../utils/generateToken.js'
 // Reset Password Controller
-const generateToken=()=>{
-    return crypto.randomBytes(32).toString('hex')
-}
+
 
 export const generateResetURL= async (req,res)=>{
     const {email,hostName}=req.body
@@ -12,7 +11,7 @@ export const generateResetURL= async (req,res)=>{
         const verifyResult =await database.query(`SELECT email from e_attendance.User WHERE email=$1`,[email])
         
         if(verifyResult.rows.length>0){
-        const resetToken=generateToken()
+        const resetToken=generateRandomToken()
         const query=`UPDATE e_attendance.User SET reset_token=$1,expiry_time=CURRENT_TIMESTAMP+'1800 Seconds' WHERE email=$2`
         await database.query(query,[resetToken,email])
         sendResetEmail(email,resetToken,hostName)

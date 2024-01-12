@@ -16,7 +16,7 @@ const onChange=(e)=>{
 }
 const onSubmit=(e)=>{
   e.preventDefault();
-  api.post("/login",loginDetails).then((response)=>{
+  api.post("/admin/login",loginDetails).then((response)=>{
     console.log(response.data);
     localStorage.setItem('jwtToken',response.data.token)
     setloginDetails({
@@ -32,7 +32,7 @@ const onSubmit=(e)=>{
 
 const onForgotPassword=(e)=>{
   e.preventDefault();
-  api.post("/resetpassword",{email:loginDetails.email,hostName:host}).then((response)=>{
+  api.post("/admin/resetpassword",{email:loginDetails.email,hostName:host}).then((response)=>{
     setloginDetails({
       email:"",
       password:""

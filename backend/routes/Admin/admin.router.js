@@ -6,3 +6,5 @@ router.post("/createadmin",CreateAdmin)
 
 //edit Admin details route
 router.put("/editadmin",editAdmin)
+
+export const AdminRouters=router
