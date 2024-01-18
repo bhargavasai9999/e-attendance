@@ -5,10 +5,11 @@ import { sendEmail } from "../../utils/sendMail.js";
 export const studentLogin=async(req,res)=>{
     const {rollNumber,password}=req.body;
     try {
-        const query=`SELECT studentid from e_attendance.Student 
+        const query=`SELECT studentid,password from e_attendance.Student 
         WHERE roll_number=$1 AND password=$2`
         const Result=await database.query(query,[rollNumber,password])
         if(Result.rows.length>0){
+
             if(Result.rows[0].password===password){
                 const userIdToken=jwtToken(Result.rows[0].studentid)
                 return res.json({

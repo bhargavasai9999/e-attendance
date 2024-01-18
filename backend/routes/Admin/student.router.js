@@ -10,8 +10,8 @@ router.put("/editstudent",authorizeUser,editStudent)
 // get all students route
 router.get("/students",authorizeUser,getAllStudents)
 // get students by roll number route
-router.get("student/:id",authorizeUser,getStudentById)
+router.get("/student/:id",authorizeUser,getStudentById)
 //delete student route
-router.delete("/deletestudent",authorizeUser,deleteStudent)
+router.delete("/deletestudent/:id",authorizeUser,deleteStudent)
 
 export const StudentRouters = router

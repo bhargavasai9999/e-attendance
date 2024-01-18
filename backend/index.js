@@ -11,6 +11,7 @@ import { StudentRouters } from './routes/Admin/student.router.js';
 import { AdminRouters } from './routes/Admin/admin.router.js';
 import { AttendanceRouters } from './routes/Admin/attendance.router.js';
 import { StudentAuthRouters } from './routes/StudentApp/studentAuth.router.js';
+import { studentAttendanceRouters } from './routes/StudentApp/studentAttendance.router.js';
 
 const app = express();
 dotenv.config()
@@ -32,6 +33,7 @@ app.use('/admin',AuthRouters)
 app.use('/admin',StudentRouters)
 app.use('/admin',AttendanceRouters)
 app.use('/student',StudentAuthRouters)
+app.use('/student',studentAttendanceRouters)
 
 app.get('/', (req, res) => {
     try {
@@ -45,4 +47,5 @@ app.get('/', (req, res) => {
 const PORT= process.env.EXPRESS_PORT || 5000
 app.listen(PORT, () => {
     console.log(`Server Running on port ${PORT}`);
+    
 });

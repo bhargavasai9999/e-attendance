@@ -18,11 +18,22 @@ export const getAllStudents=async(req,res)=>{
 export const getStudentById=async(req,res)=>{
 
     try {
-        const RollNumber=req.body.RollNumber
+        let RollNumber=req.params.id
+        RollNumber=RollNumber.toUpperCase()
         const Result = await database.query(`
-        SELECT *from e_attendance.Student WHERE roll_number=$1 AND associated_adminid=$2
+        SELECT roll_number,name,email,mobile_number,password from e_attendance.Student WHERE roll_number=$1 AND associated_adminid=$2
         `,[RollNumber,req.userId])
+       if(Result.rows.length>0){
+        return res.status(200).json({
+            message:"Fetched Student Details",
+            data:Result.rows[0] || []
+        })
+       }
+       else{
+        return res.status(400).json({message:"Student not found"})
+       }
     } catch (error) {
         console.log(error)
+        return res.status(500).json("Internal server error")
     }
 }

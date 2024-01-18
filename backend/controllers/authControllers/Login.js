@@ -12,6 +12,7 @@ export const Login=async (req,res)=>{
                 const userIdToken=jwtToken(Result.rows[0].adminid)
                 return res.status(200).json({
                     token:userIdToken,
+                    name:Result.rows[0]?.name,
                     message:"Login Successful"
                 })
             }

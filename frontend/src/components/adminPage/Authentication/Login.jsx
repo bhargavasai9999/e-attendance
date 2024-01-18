@@ -1,35 +1,53 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./login.css";
 import { Form, FormControl, FormLabel, InputGroup} from 'react-bootstrap'
 import InputGroupText from 'react-bootstrap/esm/InputGroupText'
 import {api} from '../../../apis/axiosConfig.js';
 import toast from 'react-hot-toast';
-export const Login = () => {
+import { useLocation, useNavigate } from 'react-router-dom';
+export const Login = ({setIsValidUser}) => {
   const host=window.location.host
   const [loginDetails,setloginDetails]=useState({
   email:"",
   password:""
 })
+const navigate=useNavigate()
 const [isForgotPassword,setForgotPassword]=useState(false);
 const onChange=(e)=>{
   setloginDetails({...loginDetails,[e.target.name]:e.target.value})
 }
-const onSubmit=(e)=>{
+const onSubmit=async (e)=>{
   e.preventDefault();
-  api.post("/admin/login",loginDetails).then((response)=>{
+  await api.post("/admin/login",loginDetails).then((response)=>{
     console.log(response.data);
-    localStorage.setItem('jwtToken',response.data.token)
+     localStorage.setItem('jwtToken',response.data.token)
+     localStorage.setItem('Name',response.data.name)
     setloginDetails({
       email:"",
       password:""
 
     })
     toast.success(response.data.message,)
+    let token=localStorage.getItem('jwtToken')
+    if(token){
+      setIsValidUser(true)
+      navigate("/dashboard")
+    }
   }).catch((err)=>{
     toast.error(err.response.data.message)
+    setIsValidUser(false)
   })
+
 }
 
+useEffect(()=>{
+  let token=localStorage.getItem('jwtToken')
+    if(token){
+      setIsValidUser(true)
+      navigate('/dashboard')
+
+    }
+},[])
 const onForgotPassword=(e)=>{
   e.preventDefault();
   api.post("/admin/resetpassword",{email:loginDetails.email,hostName:host}).then((response)=>{

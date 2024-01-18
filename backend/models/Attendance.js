@@ -10,6 +10,7 @@ export const CreateAttendanceTable=async ()=>{
             checkin_time TIMESTAMPTZ,
             checkout_time TIMESTAMPTZ,
             attendance_status VARCHAR(10),
+            created_At DATE,
             FOREIGN KEY (admin_id) REFERENCES e_attendance.User(ADMINID),
             FOREIGN KEY (student_id) REFERENCES e_attendance.Student(STUDENTID) ON DELETE CASCADE
         )`
