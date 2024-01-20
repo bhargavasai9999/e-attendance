@@ -6,7 +6,7 @@ export const jwtToken=(userId)=>{
         userId:userId
     }
     return jwt.sign(payload,process.env.jwt_key,{
-        expiresIn:'1h'
+        expiresIn:'1 day'
     })
 }
 

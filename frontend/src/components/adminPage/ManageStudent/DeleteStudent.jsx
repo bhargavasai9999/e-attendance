@@ -38,6 +38,7 @@ export const DeleteStudent = () => {
   const handleDelete = async() => {
     await api.delete(`/admin/deletestudent/${searchTerm}`,token).then((res)=>{
       console.log(res)
+      toast.success("deleted successfully")
     }).catch((err)=>{
       console.log(err)
     })

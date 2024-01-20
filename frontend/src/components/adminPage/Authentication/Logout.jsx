@@ -6,6 +6,7 @@ export const Logout = ({setIsValidUser}) => {
     useEffect(()=>{
         localStorage.removeItem('jwtToken')
         localStorage.removeItem('Name')
+        localStorage.removeItem('ExpiryTime')
         setIsValidUser(false)
         toast.success("Logout successful")
         navigate('/login')

@@ -22,6 +22,7 @@ const onSubmit=async (e)=>{
     console.log(response.data);
      localStorage.setItem('jwtToken',response.data.token)
      localStorage.setItem('Name',response.data.name)
+     localStorage.setItem("ExpiryTime",Date.now()+86400*1000)
     setloginDetails({
       email:"",
       password:""

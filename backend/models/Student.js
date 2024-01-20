@@ -5,7 +5,7 @@ export const CreateStudentTable=async()=>{
         const query=`CREATE TABLE IF NOT EXISTS e_attendance.Student (
             STUDENTID UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
             ASSOCIATED_ADMINID UUID NOT NULL,
-            ROLL_NUMBER SERIAL UNIQUE NOT NULL,
+            ROLL_NUMBER TEXT UNIQUE NOT NULL,
             NAME VARCHAR(200) NOT NULL,
             EMAIL VARCHAR(200) NOT NULL,
             MOBILE_NUMBER NUMERIC(10,0) NOT NULL,
@@ -16,6 +16,7 @@ export const CreateStudentTable=async()=>{
         )
         `
         await database.query(query)
+        await database.query(`CREATE SEQUENCE IF NOT EXISTS student_roll_number_seq`)
         console.log("Student Table Created")
 
  

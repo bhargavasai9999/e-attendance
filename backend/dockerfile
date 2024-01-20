@@ -7,13 +7,10 @@ WORKDIR /e-attendance/backend
 #Copy Package.json File 
 
 COPY package.json /e-attendance/backend/
-# install node packages
 RUN npm install --verbose
 
-#Copy all Bundle files into image
 COPY . .
 
-#Run container on Port 8080
 EXPOSE 8080
 
 #Run Your node application

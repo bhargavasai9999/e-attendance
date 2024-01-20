@@ -7,12 +7,13 @@ export const addStudent = async (req, res) => {
    const { name, email, mobile_number, password } = req.body;
 
    try {
-       const prefix = "STUD";
-       
-       const query = `
+      const checkResult=await database.query(`SELECT email from e_attendance.Student WHERE email=$1`,[email])
+      if(checkResult.rowCount==0){
+       const query =  `
        INSERT INTO e_attendance.Student (roll_number, name, email, mobile_number, password, associated_adminid) 
-       VALUES (DEFAULT, $1, $2, $3, $4, $5)
-       RETURNING roll_number`;
+       VALUES ('STUD' || LPAD(nextval('student_roll_number_seq')::text, 5, '0'), $1, $2, $3, $4, $5)
+       RETURNING roll_number;
+     `
        
        const result = await database.query(query, [ name, email, mobile_number, password, req.userId]);
       console.log(result)
@@ -35,7 +36,9 @@ export const addStudent = async (req, res) => {
 
            sendEmail(email, data);
            return res.status(200).json({ message: "Student added Successfully" ,data:result.rows[0]?.roll_number});
-       } else {
+       } 
+      }
+      else {
            return res.status(400).json({ message: "Student with Email already exists" });
        }
    } catch (error) {

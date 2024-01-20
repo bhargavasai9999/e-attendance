@@ -40,7 +40,7 @@ export const AddStudent = () => {
         mobile_number: formData.mobileNumber,
         password: formData.password,
       }, token).then((response)=>{
-        toast.success(response.data.message+"roll Number is "+response.data.data.roll_number);
+        toast.success(response.data.message+" roll Number is "+ response.data.data);
       toast.success("Student login credentials are sent to their email");
       }).catch((err)=>{
         toast.error(err.response.data.message)
@@ -61,6 +61,9 @@ export const AddStudent = () => {
       <h2 className='fw-bold'><IoIosPersonAdd icon={25} />&nbsp; Add Student</h2>
       <br />
       <div>
+      <p className='text-danger mt-2 fw-bold'>
+        ** Roll Number is !! Auto Generated !! at server and rollNumber sent to Student email along with his/her password
+          </p>
         <Form noValidate validated={validated} onSubmit={handleSubmit} action='/' className='fw-bold align-items-center'>
           {/* <Row className="mb-3">
             <Form.Group as={Col} md="12" xs="12" controlId="rollNumber">

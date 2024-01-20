@@ -9,16 +9,25 @@ import { Logout } from './components/adminPage/Authentication/Logout';
 const App = () => {
   const[isValidUser,setIsValidUser]=useState(false)
   
-   const isAuthenticated=()=>{
-    let token=localStorage.getItem('jwtToken')
-    let name=localStorage.getItem('Name')
-    if(token && name){
-        setIsValidUser(true)
+  const isAuthenticated = () => {
+    const token = localStorage.getItem('jwtToken');
+    const name = localStorage.getItem('Name');
+    const expireTime = localStorage.getItem('ExpiryTime');
+    
+    if (token && name && expireTime) {
+      if (parseInt(expireTime, 10) > Date.now() && parseInt(expireTime, 10) <= Date.now() + 86400 * 1000) {
+        setIsValidUser(true);
+      } else {
+        localStorage.removeItem('jwtToken');
+        localStorage.removeItem('Name');
+        localStorage.removeItem('ExpireTime');
+        setIsValidUser(false);
+      }
+    } else {
+      setIsValidUser(false);
     }
-    else{
-        setIsValidUser(false)
-    }
-}
+  };
+  
 useEffect(()=>{
   isAuthenticated()
 },[])
