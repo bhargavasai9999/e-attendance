@@ -37,10 +37,10 @@ app.use('/student',studentAttendanceRouters)
 
 app.get('/', (req, res) => {
     try {
-        res.send('hello.... Server Started');
+        return res.status(200).send('hello.... Server Started');
     } catch (error) {
         console.error(error);
-        res.status(500).send('Internal Server Error');
+        return res.status(500).send('Internal Server Error');
     }
 });
 

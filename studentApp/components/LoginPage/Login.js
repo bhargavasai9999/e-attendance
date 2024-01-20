@@ -52,7 +52,7 @@ const Login = ({ navigation }) => {
       style={styles.backgroundImage}
     >
       <View style={styles.container}>
-        <Text style={styles.heading}>E-attendance</Text>
+        <Text style={styles.heading}>E-attendance Student-App</Text>
 
         <Card style={[styles.card, { width: cardWidth }]} elevation={5}>
           <Card.Content>
@@ -60,7 +60,7 @@ const Login = ({ navigation }) => {
 
             <TextInput
               style={styles.input}
-              label="Username"
+              label="Roll Number"
               value={username}
               onChangeText={(value) => handleInputChange('username', value)}
               theme={{ colors: { primary: theme.colors.primary } }}

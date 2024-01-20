@@ -64,6 +64,7 @@ export const Dashboard = () => {
     };
 
     fetchDashboardData();
+    
   },[]);
 
   return (

@@ -5,6 +5,8 @@ import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { AdminSidebar } from './components/adminPage/Sidebar/Sidebar';
 import { Logout } from './components/adminPage/Authentication/Logout';
+import { api } from './apis/axiosConfig';
+import toast from 'react-hot-toast';
 
 const App = () => {
   const[isValidUser,setIsValidUser]=useState(false)
@@ -30,6 +32,17 @@ const App = () => {
   
 useEffect(()=>{
   isAuthenticated()
+  const CheckServer=async()=>{
+    await api.get('/').then((res)=>{
+      if(res.status!=200){
+        toast.error("server connected ")
+      }
+
+    }).catch((err)=>{
+      toast.error("Unable to connect server / check  internet connection")
+    })
+  }
+  CheckServer()
 },[])
   return (
     <>
