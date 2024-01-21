@@ -1,6 +1,4 @@
-
-
-export const orangeWhiteTheme = {
+ const theme = {
     colors: {
       primary: '#fe5f01', 
       accent: '#FFFFFF', 
@@ -23,3 +21,4 @@ export const orangeWhiteTheme = {
     },
   };
   
+export default theme;

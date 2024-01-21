@@ -20,3 +20,29 @@ export const CreateAttendanceTable=async ()=>{
         console.log(error)
     }
 }
+
+
+export const CreateProcedure=async()=>{
+    try {
+        await database.query(`CREATE OR REPLACE PROCEDURE  updateAttendanceStatus()
+        LANGUAGE plpgsql
+        AS $$
+        BEGIN
+          -- Update attendance_status based on checkin_time and checkout_time
+          UPDATE e_attendance.Attendance
+          SET
+            attendance_status = CASE 
+                                WHEN checkin_time IS NOT NULL AND checkout_time IS NOT NULL THEN 'Present'
+                                ELSE attendance_status
+                              END
+          WHERE checkin_time IS NOT NULL AND checkout_time IS NOT NULL;
+        END;
+        $$
+        `)
+        console.log("Created Attendance Procedure")
+    } catch (error) {
+        console.log(error)
+        
+    }
+
+}

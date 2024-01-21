@@ -1,19 +1,6 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import Login from './components/LoginPage/Login.js';
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Login/>
-    </View>
-  );
-}
+import React from 'react';
+import AppNavigator from './AppNavigator';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default function App() {
+  return <AppNavigator />;
+}

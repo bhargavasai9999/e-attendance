@@ -12,5 +12,6 @@ export const jwtToken=(userId)=>{
 
 export const verifyTokenandGetUserId=(token)=>{
     const payload = jwt.verify(token,process.env.jwt_key)
+    console.log(payload.userId)
     return payload.userId
 }

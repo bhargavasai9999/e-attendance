@@ -24,7 +24,6 @@ export const AddStudent = () => {
     event.preventDefault();
     setValidated(true);
 
-    // Check if all required fields are filled
     const requiredFields = ['name', 'email', 'mobileNumber'];
     const hasEmptyField = requiredFields.some(field => !formData[field]);
 

@@ -6,7 +6,7 @@ import { CreateSchema } from './models/CreateSchema.js';
 import { CreateUserTable } from './models/User.js';
 import { AuthRouters } from './routes/Admin/authentication.router.js';
 import { CreateStudentTable } from './models/Student.js';
-import { CreateAttendanceTable } from './models/Attendance.js';
+import { CreateAttendanceTable,CreateProcedure } from './models/Attendance.js';
 import { StudentRouters } from './routes/Admin/student.router.js';
 import { AdminRouters } from './routes/Admin/admin.router.js';
 import { AttendanceRouters } from './routes/Admin/attendance.router.js';
@@ -22,6 +22,7 @@ await CreateSchema();
 await CreateUserTable();
 await CreateStudentTable();
 await CreateAttendanceTable();
+await CreateProcedure();
 
 
 

@@ -1,4 +1,3 @@
-
 import { StyleSheet } from 'react-native';
 
 export const commonStyles = (theme) =>
@@ -16,8 +15,8 @@ export const commonStyles = (theme) =>
       textAlign:'center'
     },
     card: {
-      alignItems: 'center', 
-      justifyContent: 'center',
+      alignItems: 'stretch', 
+      justifyContent: 'space-evenly',
       width: '80%',
       padding: 0,
       borderRadius: 12,
@@ -36,8 +35,6 @@ export const commonStyles = (theme) =>
       backgroundColor: 'white',
       borderRadius: 8,
       minWidth:200
-     
-
     },
     errorText: {
       color: theme.colors.error,
@@ -61,5 +58,11 @@ export const commonStyles = (theme) =>
       height: '100%'
 
 
+    },  forgotPasswordText: {
+      color: theme.colors.primary,
+      marginTop: 0,
+      textAlign: 'center',
+      marginBottom:10,
+      textDecorationLine: 'underline',
     },
   });

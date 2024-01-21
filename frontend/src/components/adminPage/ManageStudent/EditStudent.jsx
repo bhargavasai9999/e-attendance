@@ -85,7 +85,7 @@ toast.error("Check network connection")
     <Container className='overflow-y-scroll'>
       <h2 className='fw-bold'><FaEdit size={30} />&nbsp;Edit Student</h2>
 
-      <Form className='fw-bold text-center' onSubmit={handleSubmit} autoComplete='off'>
+      <Form className='fw-bold text-center' onSubmit={handleSubmit} autoComplete='on'>
         <Form.Group as={Row} className="mb-3">
           <Form.Label column sm="2" className='fw-bold'>
             Search by Roll Number

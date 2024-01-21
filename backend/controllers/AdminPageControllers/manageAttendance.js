@@ -7,12 +7,11 @@ export const modifyAttendanceStatus=async (req,res)=>{
     console.log(status,attendance_id)
     try {
         const query=`UPDATE e_attendance.Attendance
-        SET attendance_status = $1
-        WHERE attendance_id = $2
-          
-          AND admin_id = $3
+        SET checkin_time=$2,checkout_time=$3,attendance_status = $1
+        WHERE attendance_id = $4
+          AND admin_id = $5
         `
-        const Result=await database.query(query,[status,attendance_id,req.userId])
+        const Result=await database.query(query,[status,null,null,attendance_id,req.userId])
         console.log(Result)
         if(Result.rowCount>0){
             return res.status(200).json({message:"Record updated successfully"})
