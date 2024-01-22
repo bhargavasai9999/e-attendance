@@ -41,7 +41,7 @@ export const getAllAttendance = async (req, res) => {
               checkout_time,
               attendance_status,
               created_At
-          FROM e_attendance.Attendance WHERE student_id=$1
+          FROM e_attendance.Attendance WHERE student_id=$1 ORDER BY created_At DESC
       `
       const result = await database.query(query,[req.userId]);
       console.log(result.rows)

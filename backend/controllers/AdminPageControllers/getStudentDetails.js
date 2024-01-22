@@ -3,7 +3,7 @@ import { database } from "../../config/dbconnection.cjs";
 export const getAllStudents=async(req,res)=>{
     try {
         const Result=await database.query(`
-        SELECT *from e_attendance.Student WHERE associated_adminid=$1
+        SELECT * FROM e_attendance.Student WHERE associated_adminid = $1 ORDER BY roll_number ASC;
         `,[req.userId])
         return res.json({ 
             data:Result.rows,

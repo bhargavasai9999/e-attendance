@@ -33,8 +33,9 @@ export const getAttendanceStatus = async (req, res) => {
             LEFT JOIN e_attendance.Attendance AS a ON s.studentid = a.student_id
             LEFT JOIN e_attendance.User AS u ON s.associated_adminid = u.ADMINID
             WHERE u.ADMINID = $1
-                AND a.created_at = CURRENT_DATE;
-        `;
+                AND a.created_at = CURRENT_DATE ORDER BY s.roll_number ASC, a.created_at DESC;
+
+        `
 
         const attendanceResult = await database.query(attendanceQuery, [userId]);
 
@@ -68,7 +69,7 @@ LEFT JOIN e_attendance.Attendance AS a ON s.studentid = a.student_id
 WHERE
   (s.roll_number = $1 OR $1 IS NULL)
   AND (a.created_at::date = $2::date OR $2 IS NULL)
-  AND (s.associated_adminid = $3 );
+  AND (s.associated_adminid = $3 ) ORDER BY s.roll_number ASC, a.created_at DESC
 `,[rollNumber,date,req.userId])
 console.log(Result)
 if(Result.rowCount>0){

@@ -64,11 +64,10 @@ export const ProfileDetails=async (req,res)=>{
 export const getStudentDetails = async (req, res) => {
     const userId = req.userId;
     try {
-        // Query to get all student details associated with the admin
         const studentQuery = `
             SELECT studentid, roll_number, name, email, mobile_number
             FROM e_attendance.Student
-            WHERE associated_adminid = $1;
+            WHERE associated_adminid = $1 ORDER BY roll_number;
         `;
 
         const studentResult = await database.query(studentQuery, [userId]);
