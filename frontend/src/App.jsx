@@ -48,7 +48,6 @@ useEffect(()=>{
     <>
       <Routes>
         
-        
         {isValidUser ? (
           <>
             <Route path='/*' element={<Navigate to='/dashboard' /> }/>
@@ -65,7 +64,8 @@ useEffect(()=>{
           <>
           <Route path='/*' element={<Navigate to='/login' />} />
         <Route path='/login' element={<Login setIsValidUser={setIsValidUser}/>} />
-        <Route path='/resetpassword/:token' element={<ForgotPassword />} />
+        <Route path='/updatepassword/:user/:token' element={<ForgotPassword/>}/>
+
           </>
         )}
       </Routes>

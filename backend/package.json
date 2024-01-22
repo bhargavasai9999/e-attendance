@@ -4,7 +4,7 @@
   "description": "e-attendance backend",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js --host 0.0.0.0",
+    "dev": "nodemon index.js",
     "start": "node index.js --host 0.0.0.0"
   },
   "author": "Bhargava Sai",

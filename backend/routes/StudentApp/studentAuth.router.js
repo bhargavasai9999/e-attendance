@@ -11,6 +11,7 @@ router.post("/login",studentLogin)
 router.post("/resetpassword",generateResetURL)
 // update new password route
 router.put("/updatepassword",studentResetPassword)
+//profile
 router.get('/profile',authorizeUser,getProfile)
 
 export const StudentAuthRouters=router

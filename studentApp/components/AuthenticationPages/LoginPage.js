@@ -37,7 +37,7 @@ const Login = ({ navigation,isAuthenticated }) => {
         })
         .catch((err) => {
           console.error('Error during login:', err);
-          Alert.alert("Login failed", err.response.data.message);
+          Alert.alert("Login failed", err.response?.data?.message);
         });
     } catch (err) {
       console.error('Error during login:', err);
@@ -55,9 +55,13 @@ const Login = ({ navigation,isAuthenticated }) => {
         return;
       }
 
-      await api.post('/student/resetpassword', { rollNumber: resetPasswordUsername })
+      await api.post('/student/resetpassword', { rollNumber: resetPasswordUsername?.toUpperCase() }).then((res)=>{
+        console.log(res.data)
+        Alert.alert("verification link",res.data.message);
+      }).catch((err)=>{
+        console.log(err)
+      })
       
-      Alert.alert("Password Reset Link Sent", "Check your email for the password reset link.");
     } catch (err) {
       console.error('Error during password reset:', err);
       setError("Password reset failed. Please try again.");

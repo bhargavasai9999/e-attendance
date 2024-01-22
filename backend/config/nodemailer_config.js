@@ -13,7 +13,7 @@ export const transporter=createTransport({
         },
       })
 export const sendResetEmail= async (email,token,hostName)=>{
-  const resetURL=`http://${hostName}/resetpassword/${token}`
+  const resetURL=`http://${hostName}/updatepassword/admin/${token}`
     try { 
         const response = await transporter.sendMail({
             from: `"E-Attendance "<${process.env.nodemailer_email}>"`, // sender address

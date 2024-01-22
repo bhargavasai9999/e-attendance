@@ -1,7 +1,7 @@
 import { database } from "../../config/dbconnection.cjs";
 import { jwtToken } from "../../config/jwt_config.js";
 import { sendEmail } from "../../utils/sendMail.js";
-
+import {generateRandomToken} from '../../utils/generateToken.js'
 export const studentLogin=async(req,res)=>{
     const {rollNumber,password}=req.body;
     try {
@@ -33,6 +33,7 @@ export const studentLogin=async(req,res)=>{
 
 export const studentResetPassword=async (req,res)=>{
     const {token,new_Password}=req.body
+    console.log(new_Password,token)
     try{
         const query= `UPDATE e_attendance.Student SET password=$1 WHERE reset_token=$2 AND CURRENT_TIMESTAMP < resettoken_expirytime`
         const Result=await database.query(query,[new_Password,token])
@@ -50,21 +51,23 @@ export const studentResetPassword=async (req,res)=>{
 }
 
 export const generateResetURL=async (req,res)=>{
-    const{rollNumber,hostName}=req.body;
+    const{rollNumber}=req.body;
+    const hostName='192.168.0.117:3000'
     try {
         const verifyResult =await database.query(`SELECT email from e_attendance.Student WHERE roll_number=$1`,[rollNumber])
         const email=verifyResult.rows[0]?.email
+        console.log(email)
         if(verifyResult.rows.length>0){
         const resetToken=generateRandomToken()
         const query=`UPDATE e_attendance.Student SET reset_token=$1,resettoken_expirytime=CURRENT_TIMESTAMP+'1800 Seconds' WHERE roll_number=$2`
         await database.query(query,[resetToken,rollNumber])
+        console.log(resetToken)
 
-
-        const resetURL=`http://${hostName}/student/updatepassword/${resetToken}`
+        const resetURL=`http://${hostName}/updatepassword/student/${resetToken}`
         const data={
             subject: "Password Change Request link from E-attendance", // Subject 
             text: "Password reset link", // text body
-            html: `<h3>Reset Your Password </h3>
+            html_code: `<h3>Reset Your Password </h3>
             <h4>Here is Your password reset link </h4>
             <strong>Expires In : </strong>30 Minutes
             <a  rel="noreferrer noopener" href="${resetURL}"target="_blank">click Here</a>

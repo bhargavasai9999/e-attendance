@@ -1,13 +1,14 @@
 {
   "expo": {
-    "name": "studentApp",
-    "slug": "studentApp",
+    "name": "E-attendance",
+    "slug": "E-attendance",
+    "description": "Student APP of E-attendance developed by Bhargava Sai",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -17,15 +18,47 @@
     "ios": {
       "supportsTablet": true
     },
+    
+      "expo": {
+        "allowsHTTP":true,
+        "plugins": [
+          [
+            "expo-build-properties",
+            {
+              "android": {
+                "usesCleartextTraffic":true                
+              },
+              "ios": {
+                "deploymentTarget": "13.0"
+              }
+            },
+            "expo-camera",
+            {
+              "cameraPermission": "Allow E-attendance to access your camera."
+            }
+
+          ]
+        ]
+      },
+    
+    
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#ffffff"
-      }
-      ,"permissions":["CAMERA"]
+      },
+      "permissions": [
+        "CAMERA","INTERNET"
+      ],
+      "package": "com.bhargavasai9999.Eattendance"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "9cc9b404-cc0a-471f-890c-3fb55fd27df4"
+      }
     }
   }
 }

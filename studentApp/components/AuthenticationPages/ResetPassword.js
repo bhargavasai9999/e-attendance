@@ -64,6 +64,7 @@ export const ResetPassword = ({ navigation }) => {
                   onPress={togglePasswordVisibility}
                 />
               }
+              
             />
 
             <TextInput

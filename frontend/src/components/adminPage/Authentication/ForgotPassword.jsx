@@ -9,7 +9,7 @@ import { api } from '../../../apis/axiosConfig'
 import toast from 'react-hot-toast'
 
  export const ForgotPassword = () => {
-  const {token}=useParams()
+  const {user,token}=useParams()
     const [newPassword,setnewPassword]=useState({
         password:"",
         confirmPassword:""
@@ -20,7 +20,7 @@ import toast from 'react-hot-toast'
     const onSubmit=(e)=>{
         e.preventDefault();
         if(newPassword.password===newPassword.confirmPassword){
-          api.put("/admin/updatepassword",{token:token,new_Password:newPassword.password}).then((response)=>{
+          api.put(`/${user}/updatepassword`,{token:token,new_Password:newPassword.password}).then((response)=>{
             console.log(response.data.message);
             toast.success(response.data.message)
           }).catch((error)=>{
