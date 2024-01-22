@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Alert } from 'react-native';
-import { Camera } from 'expo-camera';
+import { Camera ,BarCodeScanningResult} from 'expo-camera';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
 import { api } from '../../apis/axiosConfig';
@@ -90,7 +90,7 @@ export function QRCodeScannerPage({ navigation }) {
         type={Camera.Constants.Type.back}
         flashMode={isFlashOn ? Camera.Constants.FlashMode.torch : Camera.Constants.FlashMode.off}
         onBarCodeScanned={handleBarCodeScanned}
-        key={forceRender ? 'forcedRender' : 'normalRender'}
+        key={forceRender ? 'forcedRender' : 'normalRender'} 
       >
         <View style={styles.frame} />
         <View style={styles.overlay}>
