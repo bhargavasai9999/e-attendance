@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Alert } from 'react-native';
-import { Camera ,BarCodeScanningResult} from 'expo-camera';
+import { Camera, BarCodeScanningResult } from 'expo-camera';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
 import { api } from '../../apis/axiosConfig';
@@ -14,7 +14,7 @@ export function QRCodeScannerPage({ navigation }) {
   const [isFlashOn, setIsFlashOn] = useState(false);
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [scanningEnabled, setScanningEnabled] = useState(true);
-  const [forceRender, setForceRender] = useState(false); 
+  const [forceRender, setForceRender] = useState(false);
   const cameraRef = useRef(null);
 
   const getCameraPermission = async () => {
@@ -59,6 +59,10 @@ export function QRCodeScannerPage({ navigation }) {
     setIsFlashOn((prev) => !prev);
   };
 
+  const handleScanAgain = () => {
+    setScanningEnabled(true);
+  };
+
   useFocusEffect(
     React.useCallback(() => {
       if (!hasCameraPermission) {
@@ -70,7 +74,7 @@ export function QRCodeScannerPage({ navigation }) {
         }
       }
 
-      setForceRender(prevState => !prevState);
+      setForceRender((prev) => !prev);
     }, [hasCameraPermission])
   );
 
@@ -90,7 +94,7 @@ export function QRCodeScannerPage({ navigation }) {
         type={Camera.Constants.Type.back}
         flashMode={isFlashOn ? Camera.Constants.FlashMode.torch : Camera.Constants.FlashMode.off}
         onBarCodeScanned={handleBarCodeScanned}
-        key={forceRender ? 'forcedRender' : 'normalRender'} 
+        key={forceRender ? 'forcedRender' : 'normalRender'}
       >
         <View style={styles.frame} />
         <View style={styles.overlay}>
@@ -103,6 +107,11 @@ export function QRCodeScannerPage({ navigation }) {
           </TouchableOpacity>
         </View>
       </Camera>
+      {!scanningEnabled && (
+        <TouchableOpacity onPress={handleScanAgain} style={styles.scanAgainButton}>
+          <Text style={styles.scanAgainText}>Tap to Scan Again</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
@@ -136,5 +145,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#fe5f01',
     padding: 16,
     borderRadius: 50,
+  },
+  scanAgainButton: {
+    position: 'absolute',
+    bottom: 16,
+    alignSelf: 'center',
+    backgroundColor: '#fe5f01',
+    padding: 16,
+    borderRadius: 50,
+  },
+  scanAgainText: {
+    color: '#fff',
+    fontSize: 16,
   },
 });
