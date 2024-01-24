@@ -189,8 +189,8 @@ export const ModifyAttendance = () => {
                       attendance_status
                     )}
                   </td>
-                  <td>{checkin_time}</td>
-                  <td>{checkout_time}</td>
+                  <td>{checkin_time ? new Date(checkin_time).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }) : ''}</td>
+                  <td>{checkout_time ? new Date(checkout_time).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }) : ''}</td>
                   <td>
                     {index === editingIndex ? (
                       <div>

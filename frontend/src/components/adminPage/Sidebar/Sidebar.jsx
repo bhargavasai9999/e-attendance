@@ -19,7 +19,6 @@ import { DeleteStudent } from '../ManageStudent/DeleteStudent.jsx';
 import { Profile } from '../Profile/Profile.jsx';
 import { Dashboard } from '../Dashboard/Dashboard.jsx';
 import { MdDashboard } from "react-icons/md";
-import { ViewAttendance } from '../Attendance/ViewAttendance.jsx';
 import { ModifyAttendance } from '../Attendance/ModifyAttendance.jsx';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Logout } from '../Authentication/Logout.jsx';
