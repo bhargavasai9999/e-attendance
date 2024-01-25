@@ -14,7 +14,7 @@ export const Profile = ({ navigation, isAuthenticated }) => {
     mobile: '',
     attendancePercentage: '',
   });
-  const [loading, setLoading] = useState(true); // New loading state
+  const [loading, setLoading] = useState(true); 
   const screenWidth = Dimensions.get('window').width;
   const cardWidth = screenWidth * 0.8;
 
@@ -42,9 +42,8 @@ export const Profile = ({ navigation, isAuthenticated }) => {
         });
       } catch (error) {
         console.error('Error fetching user details:', error);
-        // You might want to handle this error more gracefully (e.g., show an error message to the user)
       } finally {
-        setLoading(false); // Set loading to false when the operation is complete
+        setLoading(false); 
       }
     };
 

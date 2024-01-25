@@ -22,7 +22,7 @@ export function QRCodeScannerPage({ navigation }) {
   const [isFlashOn, setIsFlashOn] = useState(false);
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [scanningEnabled, setScanningEnabled] = useState(true);
-  const [loading, setLoading] = useState(false); // New state for loading
+  const [loading, setLoading] = useState(false); 
   const [forceRender, setForceRender] = useState(false);
   const cameraRef = useRef(null);
 
@@ -48,12 +48,12 @@ export function QRCodeScannerPage({ navigation }) {
   const handleBarCodeScanned = async ({ data }) => {
     if (scanningEnabled && !loading) {
       try {
-        setLoading(true); // Set loading to true when starting to send data
+        setLoading(true); 
         console.log('Scanned QR Code:', data);
         setScanningEnabled(false);
         await sendScannedDataToBackend(data);
       } finally {
-        setLoading(false); // Set loading to false after sending data, whether successful or not
+        setLoading(false); 
       }
     }
   };

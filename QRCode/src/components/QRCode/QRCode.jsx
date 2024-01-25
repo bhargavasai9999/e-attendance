@@ -1,4 +1,3 @@
-// QRcodePage.js
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Navbar, Container, Nav } from 'react-bootstrap';
 import QRCode from 'qrcode.react';
@@ -21,14 +20,14 @@ export const QRcodePage = ({ setIsValidUser }) => {
 
   const handleGenerateQRCode = async () => {
     try {
-      setLoading(true); // Set loading to true when generating QR code
+      setLoading(true); 
       await fetchDataAndUpdateState();
       setShowPopup(true);
     } catch (error) {
       console.error('Error generating QR Code:', error);
       toast.error('Error generating QR Code');
     } finally {
-      setLoading(false); // Set loading to false after completion (success or error)
+      setLoading(false);
     }
   };
 

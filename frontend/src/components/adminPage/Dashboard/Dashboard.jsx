@@ -10,7 +10,7 @@ export const Dashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchRollNumber, setSearchRollNumber] = useState('');
   const [filteredStudents, setFilteredStudents] = useState([]);
-  const [loading, setLoading] = useState(true); // New loading state
+  const [loading, setLoading] = useState(true); 
 
   const itemsPerPage = 8;
   const indexOfLastItem = currentPage * itemsPerPage;

@@ -50,7 +50,7 @@ export const AddStudent = () => {
     } catch (error) {
       toast.error(error.response.data.message);
     } finally {
-      setLoading(false); // Set loading back to false after form submission
+      setLoading(false); 
     }
   };
 

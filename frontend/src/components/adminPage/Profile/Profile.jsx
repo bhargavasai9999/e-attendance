@@ -15,7 +15,7 @@ export const Profile = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(true); // Set to true initially to show loading spinner
+  const [loading, setLoading] = useState(true);
 
   const handleTogglePassword = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
