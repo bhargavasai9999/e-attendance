@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button, Row, Col, Container, Alert } from 'react-bootstrap';
-import { FaEdit } from "react-icons/fa";
+import { Form, Button, Row, Col, Container, Alert, Spinner } from 'react-bootstrap';
+import { FaEdit } from 'react-icons/fa';
 import { api } from '../../../apis/axiosConfig';
 import { token } from '../../../apis/token';
-import toast from 'react-hot-toast'
+import toast from 'react-hot-toast';
+
 export const EditStudent = () => {
   const [formData, setFormData] = useState({
     rollNumber: '',
@@ -14,71 +15,73 @@ export const EditStudent = () => {
   });
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (searchTerm.trim() !== '') {
+      fetchData();
+    }
+  }, []);
 
   const fetchData = async () => {
     try {
-      await api.get(`/admin/student/${searchTerm}`,token).then((res)=>{
-        setFormData({
-          rollNumber: res.data.data.roll_number || '',
-          name: res.data.data.name || '',
-          email: res.data.data.email || '',
-          mobileNumber: res.data.data.mobile_number || '',
-          password: res.data.data.password || '',
-        })
-        toast.success(res.data.message)
-      }).catch((err)=>{
-        console.log(err)
-        toast.error(err.response.data.message)
-      })
-      
+      setLoading(true);
+
+      const response = await api.get(`/admin/student/${searchTerm}`, token);
+
+      setFormData({
+        rollNumber: response.data.data.roll_number || '',
+        name: response.data.data.name || '',
+        email: response.data.data.email || '',
+        mobileNumber: response.data.data.mobile_number || '',
+        password: response.data.data.password || '',
+      });
+
+      toast.success(response.data.message);
     } catch (error) {
-      console.log(error)
-toast.error("Check network connection")  
-  }
+      console.error(error);
+      toast.error(error.response?.data?.message || 'Error fetching student details');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const updateData = async () => {
     try {
-      await api.put("/admin/editstudent", formData,token).then((res)=>{
-        toast.success(res.data.message)
-      });
-      console.log('Student details updated:', formData);
+      setLoading(true);
+
+      await api.put('/admin/editstudent', formData, token);
+
+      toast.success('Student details updated');
     } catch (error) {
-      console.log(error)
-      toast.error(error.response.data.message)
+      console.error(error);
+      toast.error(error.response?.data?.message || 'Failed to update student details');
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleSubmit = async (event) => {
-    setFormData({
-      rollNumber: '',
-      name: '',
-      email: '',
-      mobileNumber: '',
-      password: '',
-    })
+  const handleSubmit = (event) => {
     event.preventDefault();
     fetchData();
-
   };
 
   const handleUpdate = (e) => {
-    e.preventDefault()
-    updateData(); 
+    e.preventDefault();
+    updateData();
     setFormData({
       rollNumber: '',
       name: '',
       email: '',
       mobileNumber: '',
       password: '',
-    })
-    setSearchTerm('')
+    });
+    setSearchTerm('');
   };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   return (
@@ -96,22 +99,19 @@ toast.error("Check network connection")
               placeholder="Enter Roll Number"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-            
-            required/>
+              required
+            />
           </Col>
           <Col sm="2">
             <Button variant="primary" type="submit" className='m-2' style={{ background: '#fe5f01' }}>
-              Search
+              {loading ? <Spinner animation="border" size="sm" /> : 'Search'}
             </Button>
           </Col>
         </Form.Group>
       </Form>
 
-      {error && <Alert variant="danger">{error}</Alert>}
-
-      <Form >
+      <Form>
         <Form.Group className="mb-3">
-          
           <Form.Label>Roll Number:</Form.Label>
           <Form.Control
             type="text"
@@ -162,7 +162,7 @@ toast.error("Check network connection")
         </Form.Group>
 
         <Button variant="primary" type="submit" style={{ background: '#fe5f01' }} onClick={handleUpdate}>
-          Update Student
+          {loading ? <Spinner animation="border" size="sm" /> : 'Update Student'}
         </Button>
       </Form>
     </Container>

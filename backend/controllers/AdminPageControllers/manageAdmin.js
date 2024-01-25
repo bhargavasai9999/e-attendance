@@ -65,9 +65,24 @@ export const getStudentDetails = async (req, res) => {
     const userId = req.userId;
     try {
         const studentQuery = `
-            SELECT studentid, roll_number, name, email, mobile_number
-            FROM e_attendance.Student
-            WHERE associated_adminid = $1 ORDER BY roll_number;
+        SELECT
+        s.studentid,
+        s.roll_number,
+        s.name,
+        s.email,
+        s.mobile_number,
+        a.attendance_status
+    FROM
+        e_attendance.Student AS s
+        LEFT JOIN e_attendance.Attendance AS a ON s.studentid = a.student_id
+        LEFT JOIN e_attendance.User AS u ON s.associated_adminid = u.ADMINID
+    WHERE
+        u.ADMINID = $1
+        AND a.created_at = CURRENT_DATE
+    ORDER BY
+        s.roll_number ASC,
+        a.created_at DESC;
+    
         `;
 
         const studentResult = await database.query(studentQuery, [userId]);

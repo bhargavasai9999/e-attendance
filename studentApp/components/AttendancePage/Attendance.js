@@ -154,13 +154,13 @@ export const Attendance = ({ navigation }) => {
         <Text style={styles.noRecordsText}>No records found for the selected date.</Text>
       ) : (
         <>
-          {selectedDate && (
+          {/* {selectedDate && (
             <View style={styles.selectedDateContainer}>
               <Text style={styles.selectedDateText}>
                 Showing results for: {parseDate(selectedDate.toISOString())}
               </Text>
             </View>
-          )}
+          )} */}
 
           <View style={styles.tableHeader}>
             <Text style={styles.tableHeaderCell}>Date</Text>

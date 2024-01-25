@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Row, Col, Button } from 'react-bootstrap';
+import { Form, Row, Col, Button, Spinner } from 'react-bootstrap';
 import { IoIosPersonAdd } from 'react-icons/io';
 import { api } from '../../../apis/axiosConfig.js';
 import { token } from '../../../apis/token.js';
@@ -19,13 +19,14 @@ export const AddStudent = () => {
   });
 
   const [validated, setValidated] = useState(false);
+  const [loading, setLoading] = useState(false); 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setValidated(true);
 
     const requiredFields = ['name', 'email', 'mobileNumber'];
-    const hasEmptyField = requiredFields.some(field => !formData[field]);
+    const hasEmptyField = requiredFields.some((field) => !formData[field]);
 
     if (hasEmptyField) {
       toast.error('Please fill in all required fields');
@@ -33,20 +34,23 @@ export const AddStudent = () => {
     }
 
     try {
-       await api.post(`/admin/addstudent`, {
+      setLoading(true); 
+
+      await api.post(`/admin/addstudent`, {
         name: formData.name,
         email: formData.email,
         mobile_number: formData.mobileNumber,
         password: formData.password,
-      }, token).then((response)=>{
-        toast.success(response.data.message+" roll Number is "+ response.data.data);
-      toast.success("Student login credentials are sent to their email");
-      }).catch((err)=>{
-        toast.error(err.response.data.message)
-      })
- 
+      }, token).then((response) => {
+        toast.success(response.data.message + " roll Number is " + response.data.data);
+        toast.success("Student login credentials are sent to their email");
+      }).catch((err) => {
+        toast.error(err.response.data.message);
+      });
     } catch (error) {
       toast.error(error.response.data.message);
+    } finally {
+      setLoading(false); // Set loading back to false after form submission
     }
   };
 
@@ -60,26 +64,10 @@ export const AddStudent = () => {
       <h2 className='fw-bold'><IoIosPersonAdd icon={25} />&nbsp; Add Student</h2>
       <br />
       <div>
-      <p className='text-danger mt-2 fw-bold'>
-        ** Roll Number is !! Auto Generated !! at server and rollNumber sent to Student email along with his/her password
-          </p>
+        <p className='text-danger mt-2 fw-bold'>
+          ** Roll Number is !! Auto Generated !! at the server and the rollNumber sent to Student email along with his/her password
+        </p>
         <Form noValidate validated={validated} onSubmit={handleSubmit} action='/' className='fw-bold align-items-center'>
-          {/* <Row className="mb-3">
-            <Form.Group as={Col} md="12" xs="12" controlId="rollNumber">
-              <Form.Label>Roll Number</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter Roll Number"
-                name="rollNumber"
-                value={formData.rollNumber}
-                onChange={handleChange}
-                required
-              />
-              <Form.Control.Feedback type="invalid">
-                Please provide a valid roll number.
-              </Form.Control.Feedback>
-            </Form.Group>
-          </Row> */}
           <Row className="mb-3">
             <Form.Group as={Col} md="12" xs="12" controlId="name">
               <Form.Label>Name</Form.Label>
@@ -151,7 +139,12 @@ export const AddStudent = () => {
             </Form.Group>
           </Row>
 
-          <Button type="submit" style={{ background: '#fe5f01' }}>
+          <Button type="submit" style={{ background: '#fe5f01' }} disabled={loading}>
+            {loading ? (
+              <Spinner animation="border" size="sm" role="status" className="me-2">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            ) : null}
             Add Student
           </Button>
         </Form>

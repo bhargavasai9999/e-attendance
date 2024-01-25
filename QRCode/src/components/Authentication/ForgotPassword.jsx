@@ -5,7 +5,7 @@ import { useState } from 'react'
 import {Form,FormControl,InputGroup} from 'react-bootstrap'
 import InputGroupText from 'react-bootstrap/esm/InputGroupText'
 import { useParams } from 'react-router-dom'
-import { api } from '../../../apis/axiosConfig'
+import { api } from '../../apis/axiosConfig.js'
 import toast from 'react-hot-toast'
 
  export const ForgotPassword = () => {

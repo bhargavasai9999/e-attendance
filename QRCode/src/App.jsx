@@ -1,11 +1,11 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { Login } from './components/adminPage/Authentication/Login';
-import { ForgotPassword } from './components/adminPage/Authentication/ForgotPassword';
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { AdminSidebar } from './components/adminPage/Sidebar/Sidebar';
-import { Logout } from './components/adminPage/Authentication/Logout';
+import {Login} from './components/Authentication/Login.jsx'
+import {QRcodePage} from './components/QRCode/QRCode.jsx'
+import {ForgotPassword} from './components/Authentication/ForgotPassword.jsx'
 import { api } from './apis/axiosConfig';
+
 import toast from 'react-hot-toast';
 
 const App = () => {
@@ -50,14 +50,9 @@ useEffect(()=>{
         
         {isValidUser ? (
           <>
-            <Route path='/*' element={<Navigate to='/dashboard' /> }/>
-            <Route path="/Dashboard" element={<AdminSidebar />} />
-            <Route path="/addstudent" element={<AdminSidebar />} />
-            <Route path="/editstudent" element={<AdminSidebar />} />
-            <Route path="/viewanddelete" element={<AdminSidebar />} />
-            <Route path="/viewandmodifyattendance" element={<AdminSidebar />} />
-            <Route path="/Profile" element={<AdminSidebar />} />
-            <Route path='/logout' element={<Logout setIsValidUser={setIsValidUser}/>}/>
+            <Route path='/*' element={<Navigate to='/QRCode' /> }/>
+            
+            <Route path="/QRCode" element={<QRcodePage setIsValidUser={setIsValidUser} />} />
           </>
         ) : (
           <>

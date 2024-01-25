@@ -12,7 +12,6 @@ import { MdDelete } from 'react-icons/md';
 import { GiNotebook } from 'react-icons/gi';
 import logo from '../../../assets/logo.png';
 import './sidebar.css';
-import QRcodePage from '../../QR_codePage/QRcode.jsx';
 import { AddStudent } from '../ManageStudent/AddStudent.jsx';
 import { EditStudent } from '../ManageStudent/EditStudent.jsx';
 import { DeleteStudent } from '../ManageStudent/DeleteStudent.jsx';
@@ -46,8 +45,7 @@ export const AdminSidebar = () => {
    
       case 'viewandmodifyattendance':
         return <ModifyAttendance />;
-      case 'qrcode':
-        return <QRcodePage />;
+      
       case 'profile':
         return <Profile />;
       case 'logout':
@@ -134,9 +132,7 @@ export const AdminSidebar = () => {
                 View and Modify
               </MenuItem>
             </SubMenu>
-            <MenuItem onClick={() => handleItemClick('qrcode')} style={{ color: 'black' }} icon={<MdQrCode />}>
-              QR Code
-            </MenuItem>
+            
           </Menu>
           <Menu>
             <MenuItem onClick={() => handleItemClick('profile')} icon={<CgProfile size={25} />}>

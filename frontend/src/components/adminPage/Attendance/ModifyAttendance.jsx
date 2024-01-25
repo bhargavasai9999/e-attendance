@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Form, Button, Row, Col, Pagination } from 'react-bootstrap';
-import { FaEdit } from 'react-icons/fa';
+import { Table, Form, Button, Row, Col, Pagination, Spinner, Dropdown } from 'react-bootstrap';
+import { FaEdit, FaFileExcel, FaFilePdf } from 'react-icons/fa';
 import { api } from '../../../apis/axiosConfig.js';
 import { token } from '../../../apis/token.js';
 import toast from 'react-hot-toast';
+import ExportToExcel from 'react-export-table-to-excel';
+import jsPDF from 'jspdf';
 
 export const ModifyAttendance = () => {
   const [searchByRoll, setSearchByRoll] = useState(false);
@@ -14,8 +16,9 @@ export const ModifyAttendance = () => {
   const [editingIndex, setEditingIndex] = useState(null);
   const [editedStatus, setEditedStatus] = useState('Present');
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
 
-  const itemsPerPage = 5;
+  const itemsPerPage = 4;
 
   useEffect(() => {
     handleSearch();
@@ -39,23 +42,24 @@ export const ModifyAttendance = () => {
         toast.error("Select at least one search option");
         return;
       }
-      setSearchResults([])
 
-      await api.post(`/admin/getattendance`, {
+      setLoading(true);
+      setSearchResults([]);
+
+      const response = await api.post(`/admin/getattendance`, {
         rollNumber: searchByRoll ? rollNumber.toUpperCase() : null,
         date: searchByDate ? selectedDate : null,
-      }, token).then((res) => {
-        setSearchResults(res.data);
-        toast.success("Fetched details on selected date or Roll Number");
-        setEditingIndex(null);
-        setCurrentPage(1);
-      }).catch((err) => {
-        toast.error(err.response.data.message);
-      });
+      }, token);
 
+      setSearchResults(response.data);
+      toast.success("Fetched details on selected date or Roll Number");
+      setEditingIndex(null);
+      setCurrentPage(1);
     } catch (error) {
-      toast.error('Failed to fetch attendance data');
+      toast.error(error.response?.data?.message || 'Failed to fetch attendance data');
       console.error('Error fetching attendance data:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -66,6 +70,7 @@ export const ModifyAttendance = () => {
 
   const handleSave = async () => {
     try {
+      setLoading(true);
       const res = await api.put(
         "/admin/updateattendance",
         {
@@ -78,13 +83,16 @@ export const ModifyAttendance = () => {
 
       console.log(res.data);
       toast.success(res.data.message);
+
       const updatedData = [...searchResults];
       updatedData[editingIndex].attendance_status = editedStatus;
       setEditingIndex(null);
       setSearchResults(updatedData);
     } catch (error) {
       console.log(error);
-      toast.error(error.response?.message || 'Failed to Update');
+      toast.error(error.response?.data?.message || 'Failed to Update');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -101,6 +109,43 @@ export const ModifyAttendance = () => {
 
   const handlePagination = (pageNumber) => {
     setCurrentPage(pageNumber);
+  };
+
+  const excelData = {
+    fileName: 'Attendance_Report',
+    data: searchResults,
+    columns: [
+      { label: 'Roll Number', value: 'roll_number' },
+      { label: 'Name', value: 'name' },
+      { label: 'Date', value: 'created_at' },
+      { label: 'Status', value: 'attendance_status' },
+      { label: 'Checkin', value: 'checkin_time' },
+      { label: 'Checkout', value: 'checkout_time' },
+    ],
+  };
+
+  const exportToPdf = () => {
+    const pdf = new jsPDF();
+    pdf.autoTable({ html: '#attendanceTable' });
+
+    const blob = pdf.output('blob');
+
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'AttendanceReport.pdf';
+    a.click();
+
+    URL.revokeObjectURL(url);
+  };
+
+  const handleExport = (type) => {
+    if (type === 'excel') {
+      ExportToExcel(excelData);
+    } else if (type === 'pdf') {
+      exportToPdf();
+    }
   };
 
   return (
@@ -148,85 +193,107 @@ export const ModifyAttendance = () => {
           </Col>
         </Form.Group>
 
-        <Button variant="primary" onClick={handleSearch}>
-          Search
+        <Button variant="primary" onClick={handleSearch} disabled={loading}>
+          {loading ? (
+            <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
+          ) : (
+            'Search'
+          )}
         </Button>
-      </Form>
 
-      <br />
+        <Dropdown className="m-2 d-inline">
+          <Dropdown.Toggle variant="success" id="exportDropdown">
+            Export
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={() => handleExport('excel')}>
+              <FaFileExcel /> Export to Excel
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => handleExport('pdf')}>
+              <FaFilePdf /> Export to PDF
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
 
-      {searchResults.length > 0 ? (
-        <div>
-          <Table hover>
-            <thead>
-              <tr>
-                <th>Roll Number</th>
-                <th>Name</th>
-                <th>Date</th>
-                <th>Status</th>
-                <th>Checkin</th>
-                <th>Checkout</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentResults.map(({ attendance_id, roll_number, name, created_at, attendance_status, checkin_time, checkout_time }, index) => (
-                <tr key={attendance_id}>
-                  <td>{roll_number}</td>
-                  <td>{name}</td>
-                  <td>{new Date(created_at).toLocaleDateString()}</td>
-                  <td style={{ color: editedStatus === 'Present' ? 'green' : 'red', fontWeight: 'bold' }}>
-                    {index === editingIndex ? (
-                      <Form.Control
-                        as="select"
-                        value={editedStatus}
-                        onChange={(e) => setEditedStatus(e.target.value)}
-                      >
-                        <option value="Present">Present</option>
-                        <option value="Absent">Absent</option>
-                      </Form.Control>
-                    ) : (
-                      attendance_status
-                    )}
-                  </td>
-                  <td>{checkin_time ? new Date(checkin_time).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }) : ''}</td>
-                  <td>{checkout_time ? new Date(checkout_time).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }) : ''}</td>
-                  <td>
-                    {index === editingIndex ? (
-                      <div>
-                        <Button variant="success" onClick={handleSave}>
-                          Save
-                        </Button>{' '}
-                        <Button variant="secondary" onClick={handleCancel}>
-                          Cancel
-                        </Button>
-                      </div>
-                    ) : (
-                      <Button variant="warning" onClick={() => handleEdit(index)}>
-                        Edit
-                      </Button>
-                    )}
-                  </td>
+        <br />
+
+        {searchResults.length > 0 ? (
+          <div>
+            <Table id="attendanceTable" hover>
+              <thead>
+                <tr>
+                  <th>Roll Number</th>
+                  <th>Name</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Checkin</th>
+                  <th>Checkout</th>
+                  <th>Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                {currentResults.map(({ attendance_id, roll_number, name, created_at, attendance_status, checkin_time, checkout_time }, index) => (
+                  <tr key={attendance_id}>
+                    <td>{roll_number}</td>
+                    <td>{name}</td>
+                    <td>{new Date(created_at).toLocaleDateString()}</td>
+                    <td style={{ color: editedStatus === 'Present' ? 'green' : 'red', fontWeight: 'bold' }}>
+                      {index === editingIndex ? (
+                        <Form.Control
+                          as="select"
+                          value={editedStatus}
+                          onChange={(e) => setEditedStatus(e.target.value)}
+                        >
+                          <option value="Present">Present</option>
+                          <option value="Absent">Absent</option>
+                        </Form.Control>
+                      ) : (
+                        attendance_status
+                      )}
+                    </td>
+                    <td>{checkin_time ? new Date(checkin_time).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }) : ''}</td>
+                    <td>{checkout_time ? new Date(checkout_time).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }) : ''}</td>
+                    <td>
+                      {index === editingIndex ? (
+                        <div>
+                          <Button variant="success" onClick={handleSave} disabled={loading}>
+                            {loading ? (
+                              <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
+                            ) : (
+                              'Save'
+                            )}
+                          </Button>{' '}
+                          <Button variant="secondary" onClick={handleCancel}>
+                            Cancel
+                          </Button>
+                        </div>
+                      ) : (
+                        <Button variant="warning" onClick={() => handleEdit(index)}>
+                          Edit
+                        </Button>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
 
-          <Pagination>
-            {Array.from({ length: totalPages }, (_, index) => (
-              <Pagination.Item
-                key={index + 1}
-                active={index + 1 === currentPage}
-                onClick={() => handlePagination(index + 1)}
-              >
-                {index + 1}
-              </Pagination.Item>
-            ))}
-          </Pagination>
-        </div>
-      ) : (
-        <h3 className='text-center'> <br />No students found on search.</h3>
-      )}
+            <Pagination>
+              {Array.from({ length: totalPages }, (_, index) => (
+                <Pagination.Item
+                  key={index + 1}
+                  active={index + 1 === currentPage}
+                  onClick={() => handlePagination(index + 1)}
+                >
+                  {index + 1}
+                </Pagination.Item>
+              ))}
+            </Pagination>
+          </div>
+        ) : (
+          <h3 className='text-center'> <br />No students found on search.</h3>
+        )}
+      </Form>
     </div>
   );
-}
+};

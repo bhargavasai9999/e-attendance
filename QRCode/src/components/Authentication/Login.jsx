@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Form, FormControl, FormLabel, InputGroup, Spinner } from 'react-bootstrap';
 import InputGroupText from 'react-bootstrap/esm/InputGroupText';
-import { api } from '../../../apis/axiosConfig.js';
+import { api } from '../../apis/axiosConfig.js';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 

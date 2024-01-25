@@ -34,7 +34,6 @@ export const getAttendanceStatus = async (req, res) => {
             LEFT JOIN e_attendance.User AS u ON s.associated_adminid = u.ADMINID
             WHERE u.ADMINID = $1
                 AND a.created_at = CURRENT_DATE ORDER BY s.roll_number ASC, a.created_at DESC;
-
         `
 
         const attendanceResult = await database.query(attendanceQuery, [userId]);

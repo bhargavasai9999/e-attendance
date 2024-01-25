@@ -1,5 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Dimensions,
+  Alert,
+  ActivityIndicator,
+} from 'react-native';
 import { Camera, BarCodeScanningResult } from 'expo-camera';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
@@ -14,6 +22,7 @@ export function QRCodeScannerPage({ navigation }) {
   const [isFlashOn, setIsFlashOn] = useState(false);
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [scanningEnabled, setScanningEnabled] = useState(true);
+  const [loading, setLoading] = useState(false); // New state for loading
   const [forceRender, setForceRender] = useState(false);
   const cameraRef = useRef(null);
 
@@ -36,11 +45,16 @@ export function QRCodeScannerPage({ navigation }) {
     getCameraPermission();
   }, []);
 
-  const handleBarCodeScanned = ({ data }) => {
-    if (scanningEnabled) {
-      console.log('Scanned QR Code:', data);
-      setScanningEnabled(false);
-      sendScannedDataToBackend(data);
+  const handleBarCodeScanned = async ({ data }) => {
+    if (scanningEnabled && !loading) {
+      try {
+        setLoading(true); // Set loading to true when starting to send data
+        console.log('Scanned QR Code:', data);
+        setScanningEnabled(false);
+        await sendScannedDataToBackend(data);
+      } finally {
+        setLoading(false); // Set loading to false after sending data, whether successful or not
+      }
     }
   };
 
@@ -49,7 +63,7 @@ export function QRCodeScannerPage({ navigation }) {
       const token = await getAuthorizationHeader();
       const response = await api.post(`/student/markattendance`, { token: data }, token);
       console.log(response.data);
-      Alert.alert(response.data.message, "Make sure to scan the QR code on leaving the place until you scan; it will be absent.");
+      Alert.alert('Attendance Status', response.data.message);
     } catch (error) {
       console.error('Error sending scanned data to backend:', error);
     }
@@ -107,7 +121,11 @@ export function QRCodeScannerPage({ navigation }) {
           </TouchableOpacity>
         </View>
       </Camera>
-      {!scanningEnabled && (
+      {loading ? (
+        <View style={styles.loadingIndicator}>
+          <ActivityIndicator size="large" color="#fe5f01" />
+        </View>
+      ) : !scanningEnabled && (
         <TouchableOpacity onPress={handleScanAgain} style={styles.scanAgainButton}>
           <Text style={styles.scanAgainText}>Tap to Scan Again</Text>
         </TouchableOpacity>
@@ -157,5 +175,15 @@ const styles = StyleSheet.create({
   scanAgainText: {
     color: '#fff',
     fontSize: 16,
+  },
+  loadingIndicator: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
 });

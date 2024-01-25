@@ -1,56 +1,55 @@
 import React, { useState } from 'react';
-import { Form, Button, Table, Container, Row, Col } from 'react-bootstrap';
+import { Form, Button, Table, Container, Row, Col, Spinner } from 'react-bootstrap';
 import { MdDelete } from 'react-icons/md';
 import { api } from '../../../apis/axiosConfig.js';
 import { token } from '../../../apis/token.js';
-import toast from 'react-hot-toast'
+import toast from 'react-hot-toast';
+
 export const DeleteStudent = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [studentDetails, setStudentDetails] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const sampleData = {
-    rollNumber: '123456',
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    mobileNumber: '1234567890',
-    password: 'samplepassword',
-  };
-
-  const fetchData = async() => {
-    await api.get(`/admin/student/${searchTerm}`,token).then((res)=>{
-      console.log(res.data.data)
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const response = await api.get(`/admin/student/${searchTerm}`, token);
       setStudentDetails({
-        rollNumber: res.data.data.roll_number || " ",
-        name: res.data.data.name || " ",
-        email: res.data.data.email || " ",
-        mobileNumber: res.data.data.mobile_number || " ",
-        password: res.data.data.password || " ",
+        rollNumber: response.data.data.roll_number || " ",
+        name: response.data.data.name || " ",
+        email: response.data.data.email || " ",
+        mobileNumber: response.data.data.mobile_number || " ",
+        password: response.data.data.password || " ",
       });
-      toast.success(res.data.message)
-
-    }).catch((err)=>{
-      console.log(err)
-      toast.error(err.response.data.message)
-    })
-    
+      toast.success(response.data.message);
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response?.data?.message || 'Error fetching data');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleDelete = async() => {
-    await api.delete(`/admin/deletestudent/${searchTerm}`,token).then((res)=>{
-      console.log(res)
-      toast.success("deleted successfully")
-    }).catch((err)=>{
-      console.log(err)
-    })
-    console.log('Deleting student with details:', studentDetails);
-    setSearchTerm('');
-    setStudentDetails(null);
+  const handleDelete = async () => {
+    try {
+      setLoading(true);
+      const response = await api.delete(`/admin/deletestudent/${searchTerm}`, token);
+      console.log(response);
+      toast.success("Deleted successfully");
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response?.data?.message || 'Error deleting student');
+    } finally {
+      setSearchTerm('');
+      setStudentDetails(null);
+      setLoading(false);
+    }
   };
 
   return (
     <Container>
       <h2 className='fw-bold '><MdDelete size={30} />&nbsp;View & Delete Student</h2>
-      <br/>
+      <br />
 
       <Form className='fw-bold'>
         <Row className="mb-3">
@@ -66,8 +65,17 @@ export const DeleteStudent = () => {
             />
           </Col>
           <Col sm="2">
-            <Button variant="primary" onClick={fetchData} style={{background:'#fe5f01'}}>
-              Search
+            <Button
+              variant="primary"
+              onClick={fetchData}
+              style={{ background: '#fe5f01' }}
+              disabled={loading}
+            >
+              {loading ? (
+                <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
+              ) : (
+                'Search'
+              )}
             </Button>
           </Col>
         </Row>
@@ -101,8 +109,16 @@ export const DeleteStudent = () => {
       )}
 
       {studentDetails && (
-        <Button variant="danger" onClick={handleDelete}>
-          Delete Student
+        <Button
+          variant="danger"
+          onClick={handleDelete}
+          disabled={loading}
+        >
+          {loading ? (
+            <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
+          ) : (
+            'Delete Student'
+          )}
         </Button>
       )}
     </Container>
