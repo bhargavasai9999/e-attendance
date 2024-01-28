@@ -4,9 +4,9 @@ import { FaEdit, FaFileExcel, FaFilePdf } from 'react-icons/fa';
 import { api } from '../../../apis/axiosConfig.js';
 import { token } from '../../../apis/token.js';
 import toast from 'react-hot-toast';
-import ExportToExcel from 'react-export-table-to-excel';
 import jsPDF from 'jspdf';
-
+import autoTable from 'jspdf-autotable'
+import { Exportexcel } from '../../../utils/Exportexcel.js';
 export const ModifyAttendance = () => {
   const [searchByRoll, setSearchByRoll] = useState(false);
   const [searchByDate, setSearchByDate] = useState(true);
@@ -50,7 +50,6 @@ export const ModifyAttendance = () => {
         rollNumber: searchByRoll ? rollNumber.toUpperCase() : null,
         date: searchByDate ? selectedDate : null,
       }, token);
-
       setSearchResults(response.data);
       toast.success("Fetched details on selected date or Roll Number");
       setEditingIndex(null);
@@ -111,38 +110,38 @@ export const ModifyAttendance = () => {
     setCurrentPage(pageNumber);
   };
 
-  const excelData = {
-    fileName: 'Attendance_Report',
-    data: searchResults,
-    columns: [
-      { label: 'Roll Number', value: 'roll_number' },
-      { label: 'Name', value: 'name' },
-      { label: 'Date', value: 'created_at' },
-      { label: 'Status', value: 'attendance_status' },
-      { label: 'Checkin', value: 'checkin_time' },
-      { label: 'Checkout', value: 'checkout_time' },
-    ],
-  };
 
   const exportToPdf = () => {
-    const pdf = new jsPDF();
-    pdf.autoTable({ html: '#attendanceTable' });
+    if (searchResults.length > 0) {
+      const pdf = new jsPDF();
+      pdf.autoTable({
+        head: [['Roll Number', 'Name', 'Date', 'Status', 'Checkin', 'Checkout']],
+        body: searchResults.map(({ roll_number, name, created_at, attendance_status, checkin_time, checkout_time }) => [
+          roll_number,
+          name,
+          new Date(created_at).toLocaleDateString(),
+          attendance_status,
+          checkin_time ? new Date(checkin_time).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }) : '',
+          checkout_time ? new Date(checkout_time).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }) : ''
+        ])
+      });
+            const blob = pdf.output('blob');
+      const url = URL.createObjectURL(blob);
 
-    const blob = pdf.output('blob');
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Attendance Report ${selectedDate || ''} #${rollNumber|| ''}.pdf`;
+      a.click();
 
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'AttendanceReport.pdf';
-    a.click();
-
-    URL.revokeObjectURL(url);
+      URL.revokeObjectURL(url);
+    } else {
+      toast.error('No data to export to PDF.');
+    }
   };
 
   const handleExport = (type) => {
     if (type === 'excel') {
-      ExportToExcel(excelData);
+      Exportexcel(searchResults,`Attendance ${selectedDate|| ''} #${rollNumber|| ''}`);
     } else if (type === 'pdf') {
       exportToPdf();
     }

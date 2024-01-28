@@ -1,6 +1,6 @@
 import axios from 'axios'
 
 export const api=axios.create({
-    baseURL:'http://192.168.0.117:5000'
+    baseURL:'https://e-attendance.onrender.com'
 })
 
