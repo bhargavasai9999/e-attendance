@@ -11,7 +11,7 @@ export const addStudent = async (req, res) => {
       if(checkResult.rowCount==0){
        const query =  `
        INSERT INTO e_attendance.Student (roll_number, name, email, mobile_number, password, associated_adminid) 
-       VALUES ('STUD' || LPAD(nextval('student_roll_number_seq')::text, 5, '0'), $1, $2, $3, $4, $5)
+       VALUES ('STUD' || LPAD(nextval('e_attendance.student_roll_number_seq')::text, 5, '0'), $1, $2, $3, $4, $5)
        RETURNING roll_number;
      `
        
@@ -73,14 +73,15 @@ export const editStudent=async (req,res)=>{
 }
 
 export const deleteStudent=async (req,res)=>{
-   const RollNumber=req.params.id
+   const RollNumber=req.params.id?.toUpperCase()
 
  
    try {
 
       const query=  `DELETE FROM e_attendance.Student WHERE roll_number=$1 AND associated_adminid=$2`
       const Result= await database.query(query,[RollNumber,req.userId])
-      return res.status(500).json({message:"Student Deleted"})
+      console.log(Result)
+      return res.status(200).json({message:"Student Deleted"})
 
    } catch (error) {
       console.log(error)

@@ -141,7 +141,8 @@ export const ModifyAttendance = () => {
 
   const handleExport = (type) => {
     if (type === 'excel') {
-      Exportexcel(searchResults,`Attendance ${selectedDate|| ''} #${rollNumber|| ''}`);
+      const res= Exportexcel(searchResults,`Attendance ${selectedDate|| ''} #${rollNumber|| ''}`);
+      toast(res.message)
     } else if (type === 'pdf') {
       exportToPdf();
     }

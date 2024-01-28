@@ -1,14 +1,14 @@
 import React from 'react'
 import "./login.css";
-
 import { useState } from 'react'
 import {Form,FormControl,InputGroup} from 'react-bootstrap'
 import InputGroupText from 'react-bootstrap/esm/InputGroupText'
 import { useParams } from 'react-router-dom'
 import { api } from '../../../apis/axiosConfig'
 import toast from 'react-hot-toast'
-
+import { useNavigate } from 'react-router-dom';
  export const ForgotPassword = () => {
+  const navigate=useNavigate()
   const {user,token}=useParams()
     const [newPassword,setnewPassword]=useState({
         password:"",
@@ -56,9 +56,12 @@ import toast from 'react-hot-toast'
            
            </InputGroup>
            <br/>
-
-           <button type="submit" title='Update Password' className=' login-button d-flex rounded-5 px-4 fw-bold shadow-sm py-2 mx-auto ' style={{width:"auto",textAlign:"center"}}>Update Password</button>
+         <button type="submit" title='Update Password' className=' login-button d-flex rounded-5 px-4 fw-bold shadow-sm py-2 mx-auto ' style={{width:"auto",textAlign:"center"}}>Update Password</button>
         </Form>
+        <a className='fw-bold' onClick={()=>navigate('/login')}>
+              Login here..!
+            </a>
+
       </div>
       
     </div>

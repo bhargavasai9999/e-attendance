@@ -6,6 +6,7 @@ export const Exportexcel = (data, fileName) => {
   const fileExtension = '.xlsx';
 
   try {
+    if(data){
     const dataArray = Object.keys(data).map(key => {
         const { studentid, created_at,attendance_id, ...rest } = data[key];
         return rest;
@@ -20,6 +21,12 @@ export const Exportexcel = (data, fileName) => {
     const excelBlob = new Blob([excelBuffer], { type: fileType });
 
     FileSaver.saveAs(excelBlob, fileName + fileExtension);
+    return {message:"Exported successfully"}
+    }
+
+  else{
+    return {message:"No data found to export"}
+  }
   } catch (error) {
     console.error('Error in Exportexcel:', error);
   }

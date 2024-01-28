@@ -8,6 +8,23 @@ services:
       - "3000:3000"
     depends_on:
       - backend
+  QRCode:
+    build: 
+      context: ./QRCode
+    image: bhargavasai9999/e-attendance-qrcode-page
+    ports:
+      - "3001:3001"
+    depends_on:
+      - backend
+  studentApp:
+    build:
+      context: ./studentApp
+    image: bhargavasai9999/e-attendance-studentapp
+    ports:
+      - "4000:4000"
+    depends_on:
+      - backend
+
   backend:
     build: 
       context: ./backend

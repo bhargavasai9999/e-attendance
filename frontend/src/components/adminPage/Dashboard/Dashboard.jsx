@@ -55,7 +55,8 @@ export const Dashboard = () => {
   const handleExport = (type) => {
     const date=new Date()
     if (type === 'excel') {
-      Exportexcel(students, `Students-${date.toLocaleDateString() || ''}`);
+      const res=Exportexcel(students, `Students-${date.toLocaleDateString() || ''}`);
+      toast(res.message)
     } else if (type === 'pdf') {
       exportToPdf(date);
     }

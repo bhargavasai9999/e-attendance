@@ -16,7 +16,7 @@ export const CreateStudentTable=async()=>{
         )
         `
         await database.query(query)
-        await database.query(`CREATE SEQUENCE IF NOT EXISTS student_roll_number_seq`)
+        await database.query(`CREATE SEQUENCE IF NOT EXISTS e_attendance.student_roll_number_seq`)
         console.log("Student Table Created")
 
  
