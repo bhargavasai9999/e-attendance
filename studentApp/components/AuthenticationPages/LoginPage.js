@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, Dimensions, ImageBackground, Alert } from 'react-native';
+import { View, Dimensions, ImageBackground, Alert, ActivityIndicator } from 'react-native';
 import { TextInput, Button, Text, Card } from 'react-native-paper';
 import { commonStyles } from './styles.js';
 import theme from '../../themes.js'
 import { api } from '../../apis/axiosConfig.js';
 import { setToken } from '../../apis/tokenManager.js';
 
-const Login = ({ navigation,isAuthenticated }) => {
+const Login = ({ navigation, isAuthenticated }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -19,20 +19,19 @@ const Login = ({ navigation,isAuthenticated }) => {
 
   const handleLogin = async () => {
     try {
-      setLoading(true); 
+      setLoading(true);
 
       if (!username || !password) {
         Alert.alert("Incomplete Details", "Please fill valid Roll Number and password");
         return;
       }
 
-
       await api.post('/student/login', { rollNumber: username?.toUpperCase(), password: password })
         .then((res) => {
           console.log(res.data.message);
-          setToken(res.data.token)
+          setToken(res.data.token);
           Alert.alert("Login successful", res.data.message);
-          isAuthenticated(true)
+          isAuthenticated(true);
           navigation.replace('MainTabs');
         })
         .catch((err) => {
@@ -43,30 +42,33 @@ const Login = ({ navigation,isAuthenticated }) => {
       console.error('Error during login:', err);
       Alert.alert("Login failed", err.message);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
   const handleResetPassword = async () => {
     try {
-      setLoading(true); 
+      setLoading(true);
+
       if (!resetPasswordUsername) {
         Alert.alert("Invalid Roll Number", "Please enter your Roll Number for password reset.");
         return;
       }
 
-      await api.post('/student/resetpassword', { rollNumber: resetPasswordUsername?.toUpperCase() }).then((res)=>{
-        console.log(res.data)
-        Alert.alert("verification link",res.data.message);
-      }).catch((err)=>{
-        console.log(err)
-      })
-      
+      await api.post('/student/resetpassword', { rollNumber: resetPasswordUsername?.toUpperCase() })
+        .then((res) => {
+          console.log(res.data);
+          Alert.alert("Verification link", res.data.message);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
     } catch (err) {
       console.error('Error during password reset:', err);
       setError("Password reset failed. Please try again.");
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -119,7 +121,11 @@ const Login = ({ navigation,isAuthenticated }) => {
                   style={styles.button}
                   disabled={loading}
                 >
-                  <Text style={styles.buttonText}>Send Reset Link</Text>
+                  {loading ? (
+                    <ActivityIndicator color={theme.colors.white} />
+                  ) : (
+                    <Text style={styles.buttonText}>Send Reset Link</Text>
+                  )}
                 </Button>
               </>
             ) : (
@@ -159,7 +165,11 @@ const Login = ({ navigation,isAuthenticated }) => {
                   style={styles.button}
                   disabled={loading}
                 >
-                  <Text style={styles.buttonText}>Login</Text>
+                  {loading ? (
+                    <ActivityIndicator color={theme.colors.accent} />
+                  ) : (
+                    <Text style={styles.buttonText}>Login</Text>
+                  )}
                 </Button>
               </>
             )}
