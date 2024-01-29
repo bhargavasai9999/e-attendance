@@ -33,6 +33,8 @@ docker run -p 5000:5000 bhargavasai9999/e-attendance-backend
 
 ` while installing click, install anyway to avoid Google play Protection `
 
+` NOTE: on initial login, you have to wait for a while of time on click login button until backend connected ,if backend is not connected,then it show Unable to connect server error in such case contact your administrator or author. 
+
 ## Environment Variables
 
 To run this project, you will need to add the environment variables to your .env file in backend folder
