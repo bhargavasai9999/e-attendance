@@ -27,7 +27,7 @@ yarn-error.*
 # macOS
 .DS_Store
 *.pem
-
+e-attendance-412703-1efdcd007393.json
 # local env files
 .env*.local
 
