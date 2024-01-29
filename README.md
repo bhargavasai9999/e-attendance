@@ -1,4 +1,3 @@
-
 # E-attendance
 Flipr Task assignment
 
@@ -12,6 +11,13 @@ Flipr Task assignment
 docker pull bhargavasai9999/e-attendance-frontend
 docker run -p 3000:3000 bhargavasai9999/e-attendance-frontend
 ```
+#### QRCode docker image : https://hub.docker.com/repository/docker/bhargavasai9999/e-attendance-qrcode-page/general
+
+
+```bash
+docker pull bhargavasai9999/e-attendance-qrcode-page
+docker run -p 3001:3001 bhargavasai9999/e-attendance-qrcode-page
+```
 
 #### backend docker image: https://hub.docker.com/repository/docker/bhargavasai9999/e-attendance-backend/general
 
@@ -20,6 +26,12 @@ docker pull bhargavasai9999/e-attendance-backend
 docker run -p 5000:5000 bhargavasai9999/e-attendance-backend
 ```
 
+#### E-attendance Mobile App for Student
+[E-attendance Mobile.apk](https://github.com/bhargavasai9999/e-attendance/blob/main/E-attenadance%20Mobile.apk)
+
+` Download E-attendanceMobile.apk from Repository and install on your android device `
+
+` while installing click, install anyway to avoid Google play Protection `
 
 ## Environment Variables
 
@@ -45,6 +57,12 @@ clone the git repository, setup .env file in backend and  run the following comm
   npm run dev
 ```
 
+### for QRCode
+```bash
+  cd QRCode
+  npm install
+  npm run dev
+```
 
 
 ## Tech Stack
@@ -52,4 +70,3 @@ clone the git repository, setup .env file in backend and  run the following comm
 **Frontend:** React, react-bootstrap, react-hot-toast,axios
 
 **Backend:** Node, Express,postgreSQl
-
