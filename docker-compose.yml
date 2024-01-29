@@ -6,6 +6,8 @@ services:
     image: bhargavasai9999/e-attendance-frontend
     ports:
       - "3000:3000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
       - backend
   QRCode:
@@ -14,6 +16,8 @@ services:
     image: bhargavasai9999/e-attendance-qrcode-page
     ports:
       - "3001:3001"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
       - backend
   studentApp:
@@ -21,7 +25,10 @@ services:
       context: ./studentApp
     image: bhargavasai9999/e-attendance-studentapp
     ports:
-      - "4000:4000"
+      - "19000:19000"
+      - "19001:19001"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
       - backend
 
@@ -31,5 +38,7 @@ services:
     image: bhargavasai9999/e-attendance-backend
     ports:
       - "5000:5000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     env_file:
       - /backend/.env
