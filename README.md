@@ -1,10 +1,13 @@
-# E-attendance
-Flipr Task assignment
+# E-attendance(Flipr Task assignment)
+The Student Attendance System is designed to streamline attendance
+tracking in educational institutions. It includes features for administrators
+to manage student records and attendance, and for students to view their
+attendance records and mark attendance using QR codes in Mobile App
 
 
 ## Docker images
 
-#### frontend docker image : https://hub.docker.com/repository/docker/bhargavasai9999/e-attendance-frontend/general
+#### frontend(AdminPage) docker image : https://hub.docker.com/repository/docker/bhargavasai9999/e-attendance-frontend/general
 
 
 ```bash
@@ -25,7 +28,12 @@ docker run -p 3001:3001 bhargavasai9999/e-attendance-qrcode-page
 docker pull bhargavasai9999/e-attendance-backend
 docker run -p 5000:5000 bhargavasai9999/e-attendance-backend
 ```
+#### Student App docker image: https://hub.docker.com/repository/docker/bhargavasai9999/e-attendance-studentapp/general
 
+```bash
+docker pull bhargavasai9999/e-attendance-studentapp
+docker run -p 8081:8081 bhargavasai9999/e-attendance-studentapp
+```
 #### E-attendance Mobile App for Student
 [E-attendance Mobile.apk](https://github.com/bhargavasai9999/e-attendance/blob/main/E-attenadance%20Mobile.apk)
 
@@ -52,7 +60,7 @@ clone the git repository, setup .env file in backend and  run the following comm
   npm install
   npm run dev
 ```
-### for frontend
+### for frontend(AdminPage)
 ```bash
   cd frontend
   npm install
@@ -65,10 +73,17 @@ clone the git repository, setup .env file in backend and  run the following comm
   npm install
   npm run dev
 ```
-
+### for Mobile App
+```bash
+  cd studentApp
+  npm install
+  npm start
+```
 
 ## Tech Stack
 
 **Frontend:** React, react-bootstrap, react-hot-toast,axios
 
 **Backend:** Node, Express,postgreSQl
+
+**Mobile App:** React-Native,expo-cli,React-native-paper,axios

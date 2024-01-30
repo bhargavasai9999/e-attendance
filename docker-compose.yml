@@ -25,10 +25,7 @@ services:
       context: ./studentApp
     image: bhargavasai9999/e-attendance-studentapp
     ports:
-      - "19000:19000"
-      - "19001:19001"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - "8081:8081"
     depends_on:
       - backend
 
