@@ -79,6 +79,17 @@ clone the git repository, setup .env file in backend and  run the following comm
   npm install
   npm start
 ```
+### screenshots
+![Screenshot (36)](https://github.com/user-attachments/assets/d14da2ea-26fd-4bd1-944a-0c9a8e5e0138)
+![Screenshot (37)](https://github.com/user-attachments/assets/2d6f96e8-b79e-499b-8cba-7c521bf659e8)
+![Screenshot (38)](https://github.com/user-attachments/assets/75ea1cec-e9fc-4236-b999-7f4d8f743bda)
+![Screenshot (39)](https://github.com/user-attachments/assets/7860139e-1074-482a-a0d9-798f914808ed)![Screenshot (40)](https://github.com/user-attachments/assets/ed133c1f-ac49-4a09-ba2c-f875f4517b2c)
+![Screenshot (41)](https://github.com/user-attachments/assets/2a8b2878-028a-417b-aeb8-bfea1a258bf4)
+![Screenshot (42)](https://github.com/user-attachments/assets/d5634116-5cd1-415e-95e7-952bbfcd8ada)
+![Screenshot (43)](https://github.com/user-attachments/assets/4d4eefb9-642b-409d-a39f-6a1100401fab)
+![Screenshot (44)](https://github.com/user-attachments/assets/cec843cc-8fb5-440e-b9fd-1ff87dd0bbc9)
+![Screenshot (45)](https://github.com/user-attachments/assets/305ac6c3-f7a4-4bf0-af65-d28e988831be)
+
 
 ## Tech Stack
 
@@ -87,3 +98,5 @@ clone the git repository, setup .env file in backend and  run the following comm
 **Backend:** Node, Express,postgreSQl
 
 **Mobile App:** React-Native,expo-cli,React-native-paper,axios
+
+
