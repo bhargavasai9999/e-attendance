@@ -1,33 +1,21 @@
-const dotenv=require('dotenv')
-dotenv.config()
-const pg=require('pg')
-// database connection setup 
-const DB_config={
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  password:process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
-  database:process.env.DB_NAME,
+const dotenv = require('dotenv');
+dotenv.config();
+const { Pool } = require('pg');
+
+const database = new Pool({
+  connectionString: process.env.DB_URL,
   ssl: {
-    ssl:false,               // for production it should be "true"
-    rejectUnauthorized: false, // for production it should be "true"
+    rejectUnauthorized: true, 
+  },
+});
+
+const checkdbConnection = async () => {
+  try {
+    await database.connect();
+    console.log("DB Connection Established Successfully");
+  } catch (error) {
+    console.error("Unable to connect:", error);
   }
-}
-const database = new pg.Pool(DB_config);
+};
 
-// check Database connection
-const checkdbConnection=async ()=>{
-    try {
-      if(!database._connected){
-        await database.connect()
-        console.log("DB Connection Established **Successfully");
-      }
-      }
-     catch (error) {
-        console.error("Unable to connect : ",error)
-  }
- 
-
-}
-
-module.exports={checkdbConnection,database}
+module.exports = { checkdbConnection, database };
